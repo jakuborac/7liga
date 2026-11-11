@@ -1,26 +1,40 @@
-# Moje portfólio — začiatok 👋
+# 7. Liga
 
-Vitaj! Toto je tvoj štartový projekt pre predmet **Návrh a tvorba webových stránok**. Máš tu pripravené všetko, čo potrebuješ — nič neinštaluješ.
+Web zameraný na výsledky, štatistiky a novinky zo 7. Ligy. Cieľovou skupinou sú fanúšikovia, rodinní príslušníci hráčov, skauti a miestni sponzori.
 
-## Ako začať
+## Aktuálny stav
 
-1. **Spusti si prostredie.** Ak čítaš toto priamo na GitHube, klikni zelené tlačidlo **`< > Code`** → záložka **Codespaces** → **Create codespace on main**. Po chvíli sa otvorí VS Code v prehliadači.
-2. **Otvor AI asistenta.** Vpravo klikni na ikonu **Copilot Chat** — sem budeš písať, čo chceš vytvoriť.
-3. **Pozri si svoj web.** Klikni pravým tlačidlom na súbor `index.html` → **Show Preview** (alebo *Open with Live Preview*). Otvorí sa živý náhľad, ktorý sa sám obnovuje.
-4. **Postupuj podľa predmetu** — začni **Blokom 6**.
+Projekt je vo fáze návrhu. Aktuálna stránka v `index.html` je ešte pôvodná štartovacia stránka kurzu; neobsahuje výsledky, štatistiky, profily ani inú funkčnosť 7. Ligy. `styles.css` zatiaľ upravuje iba túto štartovaciu stránku. Navrhnutý dizajn a MVP sú zdokumentované, ale zatiaľ nie sú implementované.
 
-## Čo tu nájdeš
+## Súbory
 
-| Súbor / priečinok | Na čo je |
-| ----------------- | -------- |
-| `index.html` | Tvoja hlavná stránka — jej **obsah** (zatiaľ len úvodná — čoskoro ju nahradíš svojím portfóliom). |
-| `styles.css` | **Vzhľad** stránky — farby, písmo, rozloženie (vrstva CSS). |
-| `docs/` | Sem sa uloží tvoj **style guide** (dizajnová referencia z Bloku 6) a neskôr tvoj **design brief** (`zadanie-webu.md`, Blok 11). |
-| `img/` | Sem si budeš dávať **obrázky a fotky** (napr. do portfólia v Bloku 7). |
-| `.gitignore` | Hovorí gitu, čo sa **nikdy** nesmie zverejniť — napríklad súbor `.env` s tajnými kľúčmi. |
+| Súbor | Aktuálny obsah |
+| --- | --- |
+| `index.html` | Štartovacia stránka projektu |
+| `styles.css` | Štýly štartovacej stránky |
+| `docs/style-guide.md` | Schválený vizuálny smer a návrh štruktúry MVP |
+| `docs/Zadanie webu - oráč.docx` | Pôvodné zadanie projektu |
+| `img/` | Priečinok pre obrázky webu |
 
-> **Poznámka:** Nemusíš rozumieť každému súboru. Dôležité je vedieť, že **`index.html` je tvoja stránka** a **do `img/` patria obrázky**. Zvyšok za teba spraví AI.
+## Navrhnuté MVP
 
-## Dôležité o bezpečnosti
+Nasledujúce časti sú plánované, nie implementované:
 
-Tento projekt bude časom **verejný** (aby si web mohol dať online). Preto sem **nikdy nedávaj skutočné heslá ani platobné kľúče**. V kurze používame len bezcenné cvičné kľúče — viac v znalostnej báze *Bezpečnosť kľúčov*.
+- Úvodná stránka s prehľadom tabuľky, výsledkov a najnovších článkov.
+- Výsledky zápasov a detail zápasu so zostavami a odkazmi na reportáž či fotoreport.
+- Ligová tabuľka a štatistiky hráčov vrátane strelcov, asistencií, kariet a odohraných minút.
+- Profily hráčov a klubov.
+- Články a fotoreporty.
+- Vyhľadávanie hráčov, klubov, výsledkov, článkov a fotoreportov.
+- Základný profil a obľúbené kluby či hráči.
+- Kontakt a informácie o webe.
+
+## Náhľad stránky
+
+V editore VS Code možno otvoriť `index.html` cez **Show Preview** alebo rozšírenie **Live Preview**.
+
+## Posledná úprava
+
+- 2026-11-11: Pridaný `docs/style-guide.md` so schválenou štruktúrou MVP a vizuálnym smerovaním. Kód stránky sa touto zmenou nemenil.
+
+README sa po každej úlohe, ktorá zmení kód, funkcie alebo stav projektu, aktualizuje ako posledný krok. Vždy rozlišuje medzi tým, čo je už na stránke, a tým, čo je zatiaľ iba plánované.
