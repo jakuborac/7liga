@@ -1,33 +1,31 @@
 # 7. Liga
 
-Web zameraný na výsledky, štatistiky a novinky zo 7. Ligy. Cieľovou skupinou sú fanúšikovia, rodinní príslušníci hráčov, skauti a miestni sponzori.
+Úvodná stránka futbalového webu 7. Ligy je určená fanúšikom, rodinám hráčov, skautom a miestnym sponzorom.
 
 ## Aktuálny stav
 
-Projekt je vo fáze návrhu. Aktuálna stránka v `index.html` je ešte pôvodná štartovacia stránka kurzu; neobsahuje výsledky, štatistiky, profily ani inú funkčnosť 7. Ligy. `styles.css` zatiaľ upravuje iba túto štartovaciu stránku. Navrhnutý dizajn a MVP sú zdokumentované, ale zatiaľ nie sú implementované.
+Implementovaná je jedna responzívna úvodná obrazovka podľa prototypu. Zobrazuje hornú navigáciu, najnovšie články a tabuľku. Nie sú vytvorené samostatné stránky pre hráčov, výsledky, články ani prihlásenie; tabuľka zatiaľ obsahuje iba vizuálne riadky bez ligových dát.
+
+## Dostupné správanie
+
+- Tlačidlo vyhľadávania otvorí pole, ktoré filtruje články zobrazené na úvodnej stránke.
+- Srdce prepína stav obľúbených položiek iba počas aktuálneho otvorenia stránky.
+- Odkazy na nedostupné sekcie, detail článku a prihlásenie zobrazia informačnú správu.
+- Rozloženie sa prispôsobuje menším obrazovkám.
+
+Stránka používa čisté HTML, CSS a JavaScript bez frameworkov a externých knižníc. Fotografia článkov je načítaná z lokálneho súboru `docs/prototyp/clanky.jpg`.
 
 ## Súbory
 
-| Súbor | Aktuálny obsah |
+| Súbor | Obsah |
 | --- | --- |
-| `index.html` | Štartovacia stránka projektu |
-| `styles.css` | Štýly štartovacej stránky |
+| `index.html` | Štruktúra úvodnej obrazovky |
+| `styles.css` | Vizuálny štýl a responzívne rozloženie |
+| `script.js` | Vyhľadávanie, prepnutie obľúbených a informačné správy |
 | `docs/style-guide.md` | Schválený vizuálny smer a návrh štruktúry MVP |
+| `docs/prototyp/menu.jpg` | Referenčný obrázok rozloženia úvodnej stránky |
+| `docs/prototyp/clanky.jpg` | Lokálna fotografia použitá v zozname článkov |
 | `docs/Zadanie webu - oráč.docx` | Pôvodné zadanie projektu |
-| `img/` | Priečinok pre obrázky webu |
-
-## Navrhnuté MVP
-
-Nasledujúce časti sú plánované, nie implementované:
-
-- Úvodná stránka s prehľadom tabuľky, výsledkov a najnovších článkov.
-- Výsledky zápasov a detail zápasu so zostavami a odkazmi na reportáž či fotoreport.
-- Ligová tabuľka a štatistiky hráčov vrátane strelcov, asistencií, kariet a odohraných minút.
-- Profily hráčov a klubov.
-- Články a fotoreporty.
-- Vyhľadávanie hráčov, klubov, výsledkov, článkov a fotoreportov.
-- Základný profil a obľúbené kluby či hráči.
-- Kontakt a informácie o webe.
 
 ## Náhľad stránky
 
@@ -35,6 +33,6 @@ V editore VS Code možno otvoriť `index.html` cez **Show Preview** alebo rozš�
 
 ## Posledná úprava
 
-- 2026-11-11: Pridaný `docs/style-guide.md` so schválenou štruktúrou MVP a vizuálnym smerovaním. Kód stránky sa touto zmenou nemenil.
+- 2026-11-11: Štartovaciu šablónu nahradila úvodná obrazovka podľa prototypu; doplnené sú lokálna fotografia, filtrovanie článkov a základné interakcie. Ďalšie obrazovky a skutočné ligové dáta zatiaľ nie sú implementované.
 
 README sa po každej úlohe, ktorá zmení kód, funkcie alebo stav projektu, aktualizuje ako posledný krok. Vždy rozlišuje medzi tým, čo je už na stránke, a tým, čo je zatiaľ iba plánované.

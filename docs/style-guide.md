@@ -20,7 +20,7 @@ Horné menu obsahuje logo, vyhľadávanie, hráčov, výsledky, články, obľú
 
 ### Úvodná stránka
 
-Zobrazuje stručný prehľad ligovej tabuľky, najnovšie výsledky a najnovšie články. Každý prehľad odkazuje na úplnú sekciu alebo detail.
+Zobrazuje stručný prehľad ligovej tabuľky a najnovšie články. Každý prehľad odkazuje na úplnú sekciu alebo detail.
 
 ### Výsledky a detail zápasu
 

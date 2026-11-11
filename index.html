@@ -3,33 +3,84 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Moje portfólio — začiatok</title>
-  <!-- Vzhľad stránky je v samostatnom súbore styles.css (vrstva CSS) -->
+  <meta name="description" content="Najnovšie správy a tabuľka 7. Ligy.">
+  <title>7. Liga | Najnovšie články a tabuľka</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="7. Liga – úvodná stránka">
+      <span class="brand-mark" aria-hidden="true"><span>7<span class="brand-letters">LiGA</span></span></span>
+    </a>
 
-  <main class="uvitanie">
-    <div class="emoji">👋</div>
-    <h1>Tu vznikne moje portfólio</h1>
-    <p class="podtext">
-      Toto je štartová stránka kurzu <strong>Tvorba webstránok</strong>.
-      Odteraz ju budeš meniť ty — s pomocou AI asistenta.
-    </p>
+    <nav class="primary-nav" aria-label="Hlavná navigácia">
+      <button class="icon-button search-toggle" type="button" aria-label="Vyhľadávanie" aria-expanded="false" aria-controls="search-panel">
+        <span class="search-icon" aria-hidden="true"></span>
+      </button>
+      <a class="nav-link" href="#hraci" data-demo-link>HRÁČI</a>
+      <a class="nav-link" href="#vysledky" data-demo-link>VÝSLEDKY</a>
+      <a class="nav-link" href="#clanky">ČLÁNKY</a>
+    </nav>
 
-    <div class="karta">
-      <p class="karta-nadpis">Ako začať:</p>
-      <ol>
-        <li>Otvor <strong>Copilot Chat</strong> (ikona Copilota vpravo) — sem píšeš, čo chceš vytvoriť.</li>
-        <li>Tento súbor <code>index.html</code> si pozri v <strong>živom náhľade</strong>: pravý klik naň → <em>Show Preview</em>.</li>
-        <li>Choď na <strong>Blok 7</strong> kurzu a postupuj podľa neho.</li>
-      </ol>
+    <div class="account-actions">
+      <button class="favorite-button" type="button" aria-label="Obľúbené" aria-pressed="false" data-demo-link>
+        <span aria-hidden="true">♥</span>
+      </button>
+      <button class="login-button" type="button" data-demo-link>PRIHLÁSIŤ SA</button>
     </div>
+  </header>
 
-    <p class="poznamka">
-      Keď spravíš prvú zmenu, tento text pokojne zmaž — je len na úvod.
-    </p>
+  <main class="home-layout">
+    <section class="articles-section" id="clanky" aria-labelledby="articles-heading">
+      <h1 class="section-heading" id="articles-heading">NAJNOVŠIE ČLÁNKY</h1>
+      <div class="articles-panel">
+        <div class="search-panel" id="search-panel" hidden>
+          <label for="article-search">Vyhľadávanie</label>
+          <input id="article-search" type="search" placeholder="Hľadať článok..." autocomplete="off">
+        </div>
+
+        <div class="article-list" aria-live="polite">
+          <article class="article-item" data-article>
+            <a class="article-link" href="#clanky" data-demo-link>
+              <img src="docs/prototyp/clanky.jpg" alt="Súboj hráčov v červenom a modrom drese počas miestneho derby" class="article-image">
+              <h2>AKO DOPADLO MIESTNE DERBY?</h2>
+            </a>
+          </article>
+          <article class="article-item" data-article>
+            <a class="article-link" href="#clanky" data-demo-link>
+              <img src="docs/prototyp/clanky.jpg" alt="Futbalisti bojujú o loptu na ihrisku" class="article-image">
+              <h2>NOVÉ POSILY V LIGE</h2>
+            </a>
+          </article>
+        </div>
+        <p class="empty-search" hidden>Nenašli sa žiadne články.</p>
+      </div>
+    </section>
+
+    <section class="standings-section" id="vysledky" aria-labelledby="standings-heading">
+      <h2 class="section-heading" id="standings-heading">TABUĽKA</h2>
+      <div class="standings-panel">
+        <div class="standings-header" aria-label="Stĺpce tabuľky">
+          <span>PORADIE</span>
+          <span>NÁZOV</span>
+          <span>BODY</span>
+          <span>+/-</span>
+        </div>
+        <div class="standings-placeholder" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </section>
   </main>
 
+  <p class="interaction-message" role="status" aria-live="polite"></p>
 </body>
 </html>
