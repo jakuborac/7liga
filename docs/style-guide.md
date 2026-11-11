@@ -16,7 +16,7 @@ Prehľadný zdroj výsledkov, štatistík a noviniek zo 7. Ligy. Obsah a navigá
 
 ### Spoločné menu a päta
 
-Horné menu obsahuje logo, vyhľadávanie, hráčov, výsledky, články, obľúbené a prihlásenie/profil. Logo vedie na úvodnú stránku. Kluby sú dostupné cez vyhľadávanie a súvisiace odkazy. Päta obsahuje kontakt a informácie o webe.
+Horné menu obsahuje logo, vyhľadávanie, odkazy na hráčov, výsledky a články, obľúbené a prihlásenie/profil. Logo vedie na úvodnú stránku. Srdiečko odkazuje na podstránku obľúbených klubov a hráčov. Kluby sú dostupné cez vyhľadávanie a súvisiace odkazy. Spoločná päta na každej stránke zobrazuje „7. LIGA ©“ a tlačidlo Kontakt.
 
 ### Úvodná stránka
 
@@ -36,15 +36,15 @@ Profil hráča zobrazuje klubovú príslušnosť a štatistiky. Profil klubu sp�
 
 ### Články a fotoreporty
 
-Prehľad článkov a samostatná sekcia fotoreportov s možnosťou nájsť obsah podľa klubu alebo sezóny. Detail článku obsahuje text, fotografiu zo zápasu a súvisiace odkazy. V článkoch a fotoreportoch je priestor na zviditeľnenie sponzora.
+Prehľad článkov a samostatná sekcia fotoreportov s možnosťou nájsť obsah podľa klubu alebo sezóny. Detail článku obsahuje text, fotografiu zo zápasu a súvisiace odkazy. Články na úvodnej stránke budú odkazovať na svoje detaily po vytvorení príslušných podstránok. Kým nebudú pripravené fotografie, ich miesto v zozname tvorí prázdny obrysový rámček. V článkoch a fotoreportoch je priestor na zviditeľnenie sponzora.
 
 ### Vyhľadávanie
 
-Jedno vyhľadávanie pokrýva hráčov, kluby, výsledky, články a fotoreporty. Výsledky možno filtrovať podľa typu obsahu.
+Jedno vyhľadávanie sa vysunie vedľa ikony lupy a pokrýva hráčov, kluby, výsledky, články a fotoreporty. Výsledky zobrazujú svoj typ a možno ich nájsť podľa názvu aj doplňujúcich kľúčových slov. Vyhľadávacie záznamy sa označujú typom obsahu; v aktuálnej obrazovke sú zatiaľ dostupné iba články, kým nepribudnú dáta hráčov a klubov.
 
 ### Obľúbené a profil
 
-Používateľ sa môže zaregistrovať alebo prihlásiť, spravovať základný profil a ukladať obľúbené kluby či hráčov. Z obľúbených položiek vedú odkazy na výsledky a novinky.
+Používateľ sa môže zaregistrovať alebo prihlásiť, spravovať základný profil a ukladať obľúbené kluby či hráčov. Srdiečko otvorí zoznam obľúbených; na tejto stránke možno položky otvoriť alebo odstrániť. Uložené položky sa zachovajú v lokálnom úložisku prehliadača.
 
 ### Kontakt a informácie o webe
 
@@ -52,13 +52,28 @@ Jednoduchá stránka s kontaktnými údajmi a základnými informáciami o proje
 
 ## Vizuálny štýl
 
-- **Nálada:** prehľadná, minimalistická a športová.
-- **Primárna farba:** sýta červená pre logo, tlačidlá, zvýraznenia a dôležité prvky.
-- **Pozadie:** biele, s dostatkom priestoru na čítanie.
-- **Neutrálne farby:** sivé odtiene pre pomocné texty, deliace čiary a jemné tiene.
-- **Písmo:** LEMON MILK alebo podobné výrazné písmo na nadpisy a krátke štítky; dobre čitateľné písmo na dlhé texty a štatistiky.
-- **Tvary:** čisté línie a mierne zaoblené rohy tlačidiel.
-- **Tiene:** jemné sivé tiene iba na oddelenie prvkov od pozadia.
+- **Nálada:** športová, kontrastná a prehľadná; inšpirácia čerpá z tmavých navigačných plôch a vrstvených panelov športových portálov.
+- **Paleta:**
+
+	| Úloha | Farba |
+	| --- | --- |
+	| Hlavný akcent a značka | Červená `#B51232` |
+	| Jemný červený akcent | `#D98292` |
+	| Hlavička | Svetlejšia grafitová `#34363C` |
+	| Navigačné ovládacie prvky | Grafitová `#41434A` |
+	| Pozadie stránky | Svetlosivá `#ECEEF1` |
+	| Panely a tabuľkové riadky | Biela `#FFFFFF` a sivá `#E9EBEF` |
+	| Hlavný text | Tmavá `#25272D` |
+	| Pomocný text | Sivá `#6B7079` |
+
+- **Použitie farieb:** červená je vyhradená pre značku, nadpisy, orámovania a aktívne stavy. Oranžová sa nepoužíva. Hlavička používa svetlejší grafit s bielymi ovládacími prvkami; obsahové panely ostávajú svetlé.
+- **Logo:** stred loga vizuálne splýva s hlavičkou, aby značka pôsobila ako priehľadná grafika bez sivej alebo bielej výplne.
+- **Obľúbené:** srdce je tenká obrysová ikona v kruhovom tlačidle; po aktivácii sa vyplní červenou.
+- **Vyhľadávanie:** tmavá lišta v odtieni hlavičky sa vysúva doľava od lupy, priamo v riadku navigácie. Odkazy sa pri otvorení zalomia namiesto prekrytia. Na úzkom displeji sa pole otvorí vo vlastnom riadku a odkazy sa presunú podň.
+- **Písmo:** výrazné tučné bezpätkové písmo na nadpisy a navigáciu; neutrálne bezpätkové písmo na dlhšie texty a štatistiky. Používame dostupné lokálne písma bez externého načítania.
+- **Tvary:** čisté línie a mierne zaoblené rohy tlačidiel, fotografií a panelov.
+- **Tiene:** mäkký tieň oddeľuje tmavú hlavičku a obsahové panely od pozadia; drobné tiene dodávajú hĺbku ovládacím prvkom a riadkom tabuľky.
+- **Rozloženie:** obsahové sekcie zachovávajú svoju štruktúru; otvorené vyhľadávanie môže dočasne zväčšiť alebo zalomiť hlavičku, aby neprekrývalo ostatné odkazy.
 
 ## Interakcie a použiteľnosť
 
