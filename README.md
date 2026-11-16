@@ -4,7 +4,7 @@
 
 ## Aktuálny stav
 
-Implementované sú responzívna úvodná obrazovka, podstránka obľúbených a samostatné detaily troch najnovších článkov. Úvodná stránka zobrazuje hornú navigáciu, najnovšie články, tabuľku a spoločnú pätu. Profily hráčov/klubov, výsledky, kontakt ani prihlásenie zatiaľ nie sú vytvorené; tabuľka obsahuje iba vizuálne riadky bez ligových dát. Fotografie článkov sú dočasne nahradené prázdnymi obrysovými rámčekmi.
+Implementované sú responzívna úvodná obrazovka, podstránka obľúbených a samostatné detaily troch najnovších článkov. Úvodná stránka zobrazuje hornú navigáciu, najnovšie články, tabuľku s ôsmimi klubmi a spoločnú pätu. Profily hráčov/klubov, výsledky, kontakt ani prihlásenie zatiaľ nie sú vytvorené. Fotografie článkov sú dočasne nahradené prázdnymi obrysovými rámčekmi.
 
 ## Dostupné správanie
 
@@ -40,5 +40,6 @@ V editore VS Code možno otvoriť `index.html` cez **Show Preview** alebo rozš�
 ## Posledná úprava
 
 - 2026-11-16: Články a výsledky ich vyhľadávania otvárajú samostatné responzívne detaily so spoločnou hlavičkou a pätičkou.
+- 2026-11-16: Ligová tabuľka zobrazuje osem klubov s logami, poradím, bodmi a gólovým rozdielom v zarovnaných, zaoblených riadkoch.
 
 README sa po každej úlohe, ktorá zmení kód, funkcie alebo stav projektu, aktualizuje ako posledný krok. Vždy rozlišuje medzi tým, čo je už na stránke, a tým, čo je zatiaľ iba plánované.
