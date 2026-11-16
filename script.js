@@ -112,6 +112,29 @@ function renderFavorites() {
   });
 }
 
+function setFavoriteButtonState(button, isFavorite) {
+  const label = button.dataset.favoriteType === "club" ? "klub" : "hráča";
+  button.setAttribute("aria-pressed", String(isFavorite));
+  button.setAttribute(
+    "aria-label",
+    isFavorite ? `Odobrať ${label} z obľúbených` : `Pridať ${label} medzi obľúbené`,
+  );
+}
+
+function syncFavoriteButtons() {
+  const favorites = readFavorites();
+
+  document.querySelectorAll("[data-add-favorite]").forEach((button) => {
+    const type = button.dataset.favoriteType;
+    const href = getLocalHref(button.dataset.favoriteHref);
+    const isFavorite = favorites.some(
+      (favorite) => favorite && favorite.type === type && getLocalHref(favorite.href) === href,
+    );
+
+    setFavoriteButtonState(button, isFavorite);
+  });
+}
+
 function showMessage(text) {
   message.textContent = text;
   message.classList.add("is-visible");
@@ -122,6 +145,7 @@ function showMessage(text) {
 }
 
 renderFavorites();
+syncFavoriteButtons();
 
 function showSearchMessage(text) {
   searchResults.replaceChildren();
@@ -247,13 +271,23 @@ document.addEventListener("click", (event) => {
   }
 
   const favorites = readFavorites();
-  const alreadySaved = favorites.some((favorite) => favorite.type === type && getLocalHref(favorite.href) === href);
+  const alreadySaved = favorites.some(
+    (favorite) => favorite && favorite.type === type && getLocalHref(favorite.href) === href,
+  );
 
-  if (!alreadySaved && writeFavorites([...favorites, { type, title, href }])) {
+  if (alreadySaved) {
+    const remainingFavorites = favorites.filter(
+      (favorite) => !favorite || favorite.type !== type || getLocalHref(favorite.href) !== href,
+    );
+
+    if (writeFavorites(remainingFavorites)) {
+      setFavoriteButtonState(target, false);
+      renderFavorites();
+      showMessage("Odstránené z obľúbených.");
+    }
+  } else if (writeFavorites([...favorites, { type, title, href }])) {
+    setFavoriteButtonState(target, true);
     renderFavorites();
-    target.setAttribute("aria-pressed", "true");
     showMessage("Pridané medzi obľúbené.");
-  } else if (alreadySaved) {
-    showMessage("Táto položka už je medzi obľúbenými.");
   }
 });

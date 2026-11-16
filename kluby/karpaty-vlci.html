@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Základné informácie a súpiska klubu SK Karpaty Vlci.">
+  <title>SK Karpaty Vlci | 7. Liga</title>
+  <link rel="stylesheet" href="../styles.css">
+  <script src="../script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html" aria-label="7. Liga – úvodná stránka">
+      <span class="brand-mark" aria-hidden="true"><span>7<span class="brand-letters">LiGA</span></span></span>
+    </a>
+    <nav class="primary-nav" aria-label="Hlavná navigácia">
+      <div class="search-control">
+        <button class="icon-button search-toggle" type="button" aria-label="Vyhľadávanie" aria-expanded="false" aria-controls="search-panel">
+          <span class="search-icon" aria-hidden="true"></span>
+        </button>
+        <div class="search-panel" id="search-panel" hidden>
+          <label for="site-search">Hľadaj hráča, klub alebo článok</label>
+          <input id="site-search" type="search" placeholder="Meno hráča, klubu alebo článku..." autocomplete="off" aria-controls="search-results">
+          <p class="search-hint" id="search-hint">Výsledky sa zobrazia počas písania.</p>
+          <ul class="search-results" id="search-results" aria-live="polite"></ul>
+        </div>
+      </div>
+      <a class="nav-link" href="../index.html#hraci" data-demo-link>HRÁČI</a>
+      <a class="nav-link" href="../index.html#vysledky" data-demo-link>VÝSLEDKY</a>
+      <a class="nav-link" href="../index.html#clanky">ČLÁNKY</a>
+    </nav>
+    <div class="account-actions">
+      <a class="favorite-link" href="../oblubene.html" aria-label="Obľúbené kluby a hráči">
+        <svg class="favorite-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.4 8.7c0 4.8-7.4 9.7-8.1 10.1a.6.6 0 0 1-.6 0c-.7-.4-8.1-5.3-8.1-10.1a4.4 4.4 0 0 1 8.4-1.8 4.4 4.4 0 0 1 8.4 1.8Z"></path>
+        </svg>
+      </a>
+      <button class="login-button" type="button" data-demo-link>PRIHLÁSIŤ SA</button>
+    </div>
+  </header>
+
+  <main class="club-layout">
+    <article class="club-profile-panel">
+      <header class="club-profile-header">
+        <img class="club-profile-logo" src="../img/kluby/karpaty-removebg-preview.png" alt="">
+        <div class="club-profile-title">
+          <h1>SK Karpaty Vlci</h1>
+          <button class="favorite-link club-favorite-button" type="button" data-add-favorite data-favorite-type="club" data-favorite-title="SK Karpaty Vlci" data-favorite-href="karpaty-vlci.html" aria-label="Pridať klub medzi obľúbené" aria-pressed="false">
+            <svg class="favorite-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20.4 8.7c0 4.8-7.4 9.7-8.1 10.1a.6.6 0 0 1-.6 0c-.7-.4-8.1-5.3-8.1-10.1a4.4 4.4 0 0 1 8.4-1.8 4.4 4.4 0 0 1 8.4 1.8Z"></path>
+            </svg>
+          </button>
+        </div>
+      </header>
+      <section class="club-section" aria-labelledby="club-info-heading">
+        <h2 id="club-info-heading">Základné informácie</h2>
+        <dl class="club-info-grid">
+          <div><dt>Región</dt><dd>Karpatská oblasť</dd></div>
+          <div><dt>Prezývka</dt><dd>Vlci z Karpát</dd></div>
+          <div><dt>Klubové farby</dt><dd>Tmavomodrá, biela, strieborná</dd></div>
+          <div><dt>O klube</dt><dd>Klub inšpirovaný divokou karpatskou prírodou a horami.</dd></div>
+        </dl>
+      </section>
+      <section class="club-section" aria-labelledby="club-roster-heading">
+        <h2 id="club-roster-heading">Súpiska</h2>
+        <table class="club-roster">
+          <thead><tr><th>ČÍSLO</th><th>MENO</th><th>POZÍCIA</th></tr></thead>
+          <tbody>
+            <!-- TODO: Doplniť súpisku -->
+            <tr><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td></tr>
+          </tbody>
+        </table>
+      </section>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">7. LIGA <span aria-label="copyright">©</span></p>
+    <button class="footer-contact" type="button" data-demo-link>KONTAKT</button>
+  </footer>
+  <p class="interaction-message" role="status" aria-live="polite"></p>
+</body>
+</html>
