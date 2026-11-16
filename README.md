@@ -4,7 +4,7 @@
 
 ## Aktuálny stav
 
-Implementované sú responzívna úvodná obrazovka a podstránka obľúbených. Úvodná stránka zobrazuje hornú navigáciu, najnovšie články, tabuľku a spoločnú pätu. Samostatné profily hráčov/klubov, výsledky, články, kontakt ani prihlásenie zatiaľ nie sú vytvorené; tabuľka obsahuje iba vizuálne riadky bez ligových dát. Fotografie článkov sú dočasne nahradené prázdnymi obrysovými rámčekmi.
+Implementované sú responzívna úvodná obrazovka a podstránka obľúbených. Úvodná stránka zobrazuje hornú navigáciu, najnovšie články (vrátane článku o občerstvení v lige), tabuľku a spoločnú pätu. Samostatné profily hráčov/klubov, výsledky, články, kontakt ani prihlásenie zatiaľ nie sú vytvorené; tabuľka obsahuje iba vizuálne riadky bez ligových dát. Fotografie článkov sú dočasne nahradené prázdnymi obrysovými rámčekmi.
 
 ## Dostupné správanie
 
