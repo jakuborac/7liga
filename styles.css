@@ -2075,9 +2075,10 @@ a[href*="hrac.html"]:focus {
 
 .site-footer {
   min-height: 82px;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  justify-content: space-between;
+  gap: 18px;
   margin-top: 48px;
   padding: 16px 7vw;
   border: 2px solid var(--red);
@@ -2085,6 +2086,75 @@ a[href*="hrac.html"]:focus {
   background: var(--charcoal);
   color: #f6f6f7;
   box-shadow: var(--shadow-header);
+}
+
+.footer-sponsors {
+  min-width: 0;
+  text-align: center;
+  cursor: default;
+}
+
+.footer-sponsors-heading {
+  margin: 0 0 8px;
+  color: #d8dade;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.footer-sponsor-list {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  cursor: default;
+}
+
+.footer-sponsor-card {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 9px;
+  border: 1px solid #dfe1e5;
+  border-radius: 10px;
+  background: #f7f8fa;
+  color: #25272b;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 12%);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.05;
+  cursor: default;
+  user-select: none;
+}
+
+.footer-sponsor-card-main {
+  border-color: var(--red);
+  background: #fff;
+  color: var(--red);
+  box-shadow: 0 0 0 2px rgb(181 18 50 / 12%);
+}
+
+.footer-sponsor-icon {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 7px;
+  background: #e7e9ed;
+  color: var(--red);
+  font-size: 16px;
+  line-height: 1;
+  cursor: default;
+}
+
+.footer-sponsor-card-main .footer-sponsor-icon {
+  background: var(--red);
+  color: #fff;
+  font-size: 13px;
 }
 
 .footer-brand {
@@ -2691,9 +2761,23 @@ a[href*="hrac.html"]:focus {
 
   .site-footer {
     min-height: 74px;
+    grid-template-columns: 1fr;
+    justify-items: center;
     margin-top: 34px;
     padding: 14px 18px;
     border-radius: 14px;
+  }
+
+  .footer-sponsors {
+    width: 100%;
+  }
+
+  .footer-sponsor-list {
+    gap: 6px;
+  }
+
+  .footer-sponsor-card {
+    min-height: 38px;
   }
 
   .footer-brand {

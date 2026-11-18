@@ -1271,6 +1271,46 @@ async function renderPlayerProfile() {
   syncFavoriteButtons();
 }
 
+function addFooterSponsors() {
+  const sponsors = [
+    { name: "TATRASTAV a.s.", icon: "TS", main: true },
+    { name: "STAVEBNINY TEHLA & KROV s.r.o.", icon: "▧" },
+    { name: "Karpatská Minerálka", icon: "◆" },
+  ];
+
+  document.querySelectorAll(".site-footer").forEach((footer) => {
+    if (footer.querySelector(".footer-sponsors")) {
+      return;
+    }
+
+    const section = document.createElement("div");
+    const heading = document.createElement("p");
+    const list = document.createElement("div");
+    section.className = "footer-sponsors";
+    section.setAttribute("aria-label", "Partneri a sponzori ligy");
+    heading.className = "footer-sponsors-heading";
+    heading.textContent = "PARTNERI A SPONZORI LIGY";
+    list.className = "footer-sponsor-list";
+
+    sponsors.forEach((sponsor) => {
+      const card = document.createElement("div");
+      const icon = document.createElement("span");
+      const name = document.createElement("span");
+      card.className = `footer-sponsor-card${sponsor.main ? " footer-sponsor-card-main" : ""}`;
+      icon.className = "footer-sponsor-icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.textContent = sponsor.icon;
+      name.textContent = sponsor.name;
+      card.append(icon, name);
+      list.append(card);
+    });
+
+    section.append(heading, list);
+    const contact = footer.querySelector(".footer-contact");
+    footer.insertBefore(section, contact || null);
+  });
+}
+
 function syncFavoriteButtons() {
   const favorites = readFavorites();
 
@@ -1330,6 +1370,7 @@ renderFavorites();
 renderProfile();
 setupAuthentication();
 setupContactForm();
+addFooterSponsors();
 syncFavoriteButtons();
 renderPlayerProfile().catch((error) => {
   console.error(error);
