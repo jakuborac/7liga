@@ -89,6 +89,7 @@ function renderFavorites() {
     const entry = document.createElement("div");
     const type = document.createElement("span");
     const link = document.createElement("a");
+    const content = document.createElement("div");
     const removeButton = document.createElement("button");
 
     item.className = "favorite-item";
@@ -98,6 +99,24 @@ function renderFavorites() {
     link.className = "favorite-entry-link";
     link.href = getLocalHref(favorite.href);
     link.textContent = favorite.title.trim();
+    content.className = "favorite-entry-content";
+    content.append(link);
+
+    if (favorite.type === "player") {
+      const details = [
+        favorite.club,
+        favorite.number ? `#${favorite.number}` : "",
+        favorite.position,
+      ].filter((detail) => typeof detail === "string" && detail.trim());
+
+      if (details.length) {
+        const detailLine = document.createElement("span");
+        detailLine.className = "favorite-entry-details";
+        detailLine.textContent = details.join(" · ");
+        content.append(detailLine);
+      }
+    }
+
     removeButton.className = "favorite-remove";
     removeButton.type = "button";
     removeButton.textContent = "Odstrániť";
@@ -109,7 +128,8 @@ function renderFavorites() {
       renderFavorites();
     });
 
-    entry.append(type, link);
+
+    entry.append(type, content);
     item.append(entry, removeButton);
     favoritesList.append(item);
   });
@@ -122,6 +142,49 @@ function setFavoriteButtonState(button, isFavorite) {
     "aria-label",
     isFavorite ? `Odobrať ${label} z obľúbených` : `Pridať ${label} medzi obľúbené`,
   );
+}
+
+function addRosterFavoriteButtons() {
+  const club = document.querySelector(".club-profile-title h1")?.textContent.trim();
+
+  if (!club) {
+    return;
+  }
+
+  document.querySelectorAll("[data-player-row]").forEach((row) => {
+    const [numberCell, nameCell, positionCell] = row.querySelectorAll("td");
+    const number = numberCell?.textContent.trim();
+    const title = nameCell?.textContent.trim();
+    const position = positionCell?.textContent.trim();
+
+    if (!number || !title || !position) {
+      return;
+    }
+
+    const button = document.createElement("button");
+    const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    button.className = "favorite-link player-favorite-button";
+    button.type = "button";
+    button.dataset.addFavorite = "";
+    button.dataset.favoriteType = "player";
+    button.dataset.favoriteTitle = title;
+    button.dataset.favoriteHref = `${window.location.pathname.split("/").pop()}#${row.id}`;
+    button.dataset.favoriteClub = club;
+    button.dataset.favoritePosition = position;
+    button.dataset.favoriteNumber = number;
+    icon.setAttribute("class", "favorite-icon");
+    icon.setAttribute("viewBox", "0 0 24 24");
+    icon.setAttribute("aria-hidden", "true");
+    path.setAttribute("d", "M20.4 8.7c0 4.8-7.4 9.7-8.1 10.1a.6.6 0 0 1-.6 0c-.7-.4-8.1-5.3-8.1-10.1a4.4 4.4 0 0 1 8.4-1.8 4.4 4.4 0 0 1 8.4 1.8Z");
+    icon.append(path);
+    button.append(icon);
+    button.setAttribute("aria-pressed", "false");
+    const favoriteCell = document.createElement("td");
+    favoriteCell.className = "roster-favorite-cell";
+    favoriteCell.append(button);
+    row.append(favoriteCell);
+  });
 }
 
 function syncFavoriteButtons() {
@@ -165,6 +228,7 @@ function filterArticles() {
   articleFilterEmpty.hidden = visibleArticles > 0;
 }
 
+addRosterFavoriteButtons();
 renderFavorites();
 syncFavoriteButtons();
 
@@ -314,9 +378,19 @@ document.addEventListener("click", (event) => {
       renderFavorites();
       showMessage("Odstránené z obľúbených.");
     }
-  } else if (writeFavorites([...favorites, { type, title, href }])) {
-    setFavoriteButtonState(target, true);
-    renderFavorites();
-    showMessage("Pridané medzi obľúbené.");
+  } else {
+    const favorite = { type, title, href };
+
+    if (type === "player") {
+      favorite.club = target.dataset.favoriteClub;
+      favorite.position = target.dataset.favoritePosition;
+      favorite.number = target.dataset.favoriteNumber;
+    }
+
+    if (writeFavorites([...favorites, favorite])) {
+      setFavoriteButtonState(target, true);
+      renderFavorites();
+      showMessage("Pridané medzi obľúbené.");
+    }
   }
 });

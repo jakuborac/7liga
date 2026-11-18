@@ -443,6 +443,22 @@ a {
   border-radius: 0 10px 10px 0;
 }
 
+.roster-favorite-cell {
+  width: 1%;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.player-favorite-button {
+  width: 36px;
+  height: 36px;
+}
+
+.player-favorite-button .favorite-icon {
+  width: 19px;
+  height: 19px;
+}
+
 .article-detail-layout {
   width: min(1120px, 100%);
   margin: 48px auto 0;
@@ -547,9 +563,20 @@ a {
 
 .favorite-entry {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   min-width: 0;
+}
+
+.favorite-entry-content {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.favorite-entry-details {
+  color: var(--muted);
+  font-size: 13px;
 }
 
 .favorite-entry-type {
