@@ -46,39 +46,63 @@
 
     <section class="articles-page-section" aria-labelledby="latest-articles-heading">
       <h1 class="section-heading articles-page-heading" id="latest-articles-heading">ČLÁNKY</h1>
+      <div class="article-filters" aria-label="Filtrovanie článkov">
+        <div class="article-filter">
+          <label for="article-club-filter">Klub</label>
+          <select id="article-club-filter">
+            <option value="all">Všetky kluby</option>
+            <option value="tatran-lev">FC Tatran Lev</option>
+            <option value="karpaty-vlci">SK Karpaty Vlci</option>
+            <option value="nitra-corgon">AC Nitra Corgoň</option>
+            <option value="dynamo-blesk">TJ Dynamo Blesk</option>
+            <option value="topol-orly">FC Topoľ Orly</option>
+            <option value="horal-hrad">ŠK Horal Hrad</option>
+            <option value="vulkan-ruda">ŠK Vulkán Ruda</option>
+            <option value="druzstevnik-klas">TJ Družstevník Klas</option>
+          </select>
+        </div>
+        <div class="article-filter">
+          <label for="article-season-filter">Sezóna</label>
+          <select id="article-season-filter">
+            <option value="all">Všetky sezóny</option>
+            <option value="2026/2027">2026/2027</option>
+          </select>
+        </div>
+      </div>
       <div class="articles-panel articles-page-panel">
         <div class="article-list">
-          <article class="article-item" data-search-item data-search-type="article" data-search-href="clanok-derby.html" data-search-keywords="derby zápas miestny">
+          <article class="article-item" data-article-filter-item data-clubs="tatran-lev karpaty-vlci" data-season="2026/2027" data-search-item data-search-type="article" data-search-href="clanok-derby.html" data-search-keywords="derby zápas miestny">
             <a class="article-link" href="clanok-derby.html">
               <span class="article-image-placeholder" aria-hidden="true"><img src="img/fotky/zapas1.jpg" alt=""></span>
               <h2>AKO DOPADLO MIESTNE DERBY?</h2>
             </a>
           </article>
-          <article class="article-item" data-search-item data-search-type="article" data-search-href="clanok-posily.html" data-search-keywords="prestupy noví hráči kluby">
+          <article class="article-item" data-article-filter-item data-clubs="nitra-corgon dynamo-blesk" data-season="2026/2027" data-search-item data-search-type="article" data-search-href="clanok-posily.html" data-search-keywords="prestupy noví hráči kluby">
             <a class="article-link" href="clanok-posily.html">
               <span class="article-image-placeholder" aria-hidden="true"><img src="img/fotky/bitka.jpg" alt=""></span>
               <h2>NOVÉ POSILY V LIGE</h2>
             </a>
           </article>
-          <article class="article-item" data-search-item data-search-type="article" data-search-href="clanok-obcerstvenie.html" data-search-keywords="občerstvenie jedlo nápoje bufet">
+          <article class="article-item" data-article-filter-item data-clubs="topol-orly druzstevnik-klas" data-season="2026/2027" data-search-item data-search-type="article" data-search-href="clanok-obcerstvenie.html" data-search-keywords="občerstvenie jedlo nápoje bufet">
             <a class="article-link" href="clanok-obcerstvenie.html">
               <span class="article-image-placeholder" aria-hidden="true"><img src="img/fotky/bufet1.jpg" alt=""></span>
               <h2>NAJLEPŠIE OBČERSTVENIE V NAŠEJ LIGE</h2>
             </a>
           </article>
-          <article class="article-item" data-search-item data-search-type="article" data-search-href="clanok-priprava.html" data-search-keywords="tréning príprava tím zápas">
+          <article class="article-item" data-article-filter-item data-clubs="horal-hrad tatran-lev" data-season="2026/2027" data-search-item data-search-type="article" data-search-href="clanok-priprava.html" data-search-keywords="tréning príprava tím zápas">
             <a class="article-link" href="clanok-priprava.html">
               <span class="article-image-placeholder" aria-hidden="true"><img src="img/fotky/bitka.jpg" alt=""></span>
               <h2>PRED ZÁPASOM ROZHODUJE AJ DOBRÁ PRÍPRAVA</h2>
             </a>
           </article>
-          <article class="article-item" data-search-item data-search-type="article" data-search-href="clanok-fanusikovia.html" data-search-keywords="fanúšikovia atmosféra diváci ihrisko">
+          <article class="article-item" data-article-filter-item data-clubs="vulkan-ruda karpaty-vlci" data-season="2026/2027" data-search-item data-search-type="article" data-search-href="clanok-fanusikovia.html" data-search-keywords="fanúšikovia atmosféra diváci ihrisko">
             <a class="article-link" href="clanok-fanusikovia.html">
               <span class="article-image-placeholder" aria-hidden="true"><img src="img/fotky/zapas1.jpg" alt=""></span>
               <h2>FANÚŠIKOVIA TVORIA ATMOSFÉRU NA IHRISKU</h2>
             </a>
           </article>
         </div>
+        <p class="article-filter-empty" id="article-filter-empty" aria-live="polite" hidden>Pre zvolené filtre sa nenašli žiadne články.</p>
       </div>
     </section>
   </main>

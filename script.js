@@ -7,6 +7,9 @@ const searchHint = document.querySelector("#search-hint");
 const searchResults = document.querySelector("#search-results");
 const favoritesList = document.querySelector("#favorites-list");
 const favoritesEmpty = document.querySelector("#favorites-empty");
+const articleClubFilter = document.querySelector("#article-club-filter");
+const articleSeasonFilter = document.querySelector("#article-season-filter");
+const articleFilterEmpty = document.querySelector("#article-filter-empty");
 const message = document.querySelector(".interaction-message");
 const favoritesStorageKey = "7liga-favorites";
 const typeLabels = {
@@ -144,8 +147,32 @@ function showMessage(text) {
   }, 2600);
 }
 
+function filterArticles() {
+  const selectedClub = articleClubFilter.value;
+  const selectedSeason = articleSeasonFilter.value;
+  let visibleArticles = 0;
+
+  document.querySelectorAll("[data-article-filter-item]").forEach((article) => {
+    const clubs = article.dataset.clubs.split(/\s+/);
+    const matchesClub = selectedClub === "all" || clubs.includes(selectedClub);
+    const matchesSeason = selectedSeason === "all" || article.dataset.season === selectedSeason;
+    const isVisible = matchesClub && matchesSeason;
+
+    article.hidden = !isVisible;
+    visibleArticles += Number(isVisible);
+  });
+
+  articleFilterEmpty.hidden = visibleArticles > 0;
+}
+
 renderFavorites();
 syncFavoriteButtons();
+
+if (articleClubFilter && articleSeasonFilter && articleFilterEmpty) {
+  articleClubFilter.addEventListener("change", filterArticles);
+  articleSeasonFilter.addEventListener("change", filterArticles);
+  filterArticles();
+}
 
 function showSearchMessage(text) {
   searchResults.replaceChildren();

@@ -4,7 +4,7 @@
 
 ## Aktuálny stav
 
-Implementované sú responzívna úvodná obrazovka, podstránka obľúbených, prehľad piatich článkov, detaily týchto článkov a profily ôsmich klubov. Úvodná stránka zobrazuje iba tri najnovšie články, tabuľku klubov a spoločnú pätu. Tlačidlo Fotoreporty zatiaľ oznamuje, že sekcia nie je dostupná. Profily hráčov, samostatná sekcia výsledkov, kontakt ani prihlásenie zatiaľ nie sú vytvorené. Súpisky klubov čakajú na doplnenie.
+Implementované sú responzívna úvodná obrazovka, podstránka obľúbených, prehľad piatich článkov s filtrovaním podľa klubu a sezóny, detaily týchto článkov a profily ôsmich klubov. Úvodná stránka zobrazuje iba tri najnovšie články, tabuľku klubov a spoločnú pätu. Tlačidlo Fotoreporty zatiaľ oznamuje, že sekcia nie je dostupná. Profily hráčov, samostatná sekcia výsledkov, kontakt ani prihlásenie zatiaľ nie sú vytvorené. Súpisky klubov čakajú na doplnenie.
 
 ## Dostupné správanie
 
@@ -16,6 +16,7 @@ Implementované sú responzívna úvodná obrazovka, podstránka obľúbených, 
 - Kliknutie na článok alebo jeho výsledok vo vyhľadávaní otvorí samostatnú podstránku článku; z detailu sa možno vrátiť na zoznam najnovších článkov.
 - Odkaz Články v hlavnej navigácii otvorí `clanky.html` s článkami a tlačidlom Fotoreporty.
 - `clanky.html` obsahuje päť článkov; úvodná stránka si ponecháva iba tri najnovšie.
+- Prehľad článkov možno filtrovať podľa všetkých ôsmich klubov a sezóny 2026/2027.
 - Odkazy na nedostupné sekcie a prihlásenie zobrazia informačnú správu.
 - Rozloženie sa prispôsobuje menším obrazovkám.
 
@@ -26,7 +27,7 @@ Stránka používa čisté HTML, CSS a JavaScript bez frameworkov a externých k
 | Súbor | Obsah |
 | --- | --- |
 | `index.html` | Štruktúra úvodnej obrazovky |
-| `clanky.html` | Prehľad článkov a tlačidlo Fotoreporty |
+| `clanky.html` | Prehľad článkov, filtre klubu a sezóny, tlačidlo Fotoreporty |
 | `oblubene.html` | Podstránka obľúbených hráčov a klubov |
 | `clanok-derby.html` | Detail článku o miestnom derby |
 | `clanok-posily.html` | Detail článku o nových posilách |
@@ -46,6 +47,7 @@ V editore VS Code možno otvoriť `index.html` cez **Show Preview** alebo rozš�
 
 ## Posledná úprava
 
+- 2026-11-18: Pridané filtre článkov podľa ôsmich klubov a sezóny 2026/2027.
 - 2026-11-18: Odstránená spodná sekcia fotoreportov, pridané dva články do samostatného prehľadu; úvodná stránka zostala na troch najnovších.
 - 2026-11-18: Pridaný samostatný prehľad najnovších článkov a fotoreportov; navigácia a návrat z detailov vedú na túto stránku.
 - 2026-11-16: Články a výsledky ich vyhľadávania otvárajú samostatné responzívne detaily so spoločnou hlavičkou a pätičkou.
