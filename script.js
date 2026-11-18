@@ -187,6 +187,89 @@ function addRosterFavoriteButtons() {
   });
 }
 
+function getPlayerSlug(name) {
+  return normalizeText(name)
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function linkStatisticPlayers(root = document) {
+  root.querySelectorAll(".player-stat-player").forEach((player) => {
+    if (player.querySelector(".player-stat-link")) {
+      return;
+    }
+
+    const nameNode = [...player.childNodes].find(
+      (node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim(),
+    );
+
+    if (!nameNode) {
+      return;
+    }
+
+    const name = nameNode.textContent.trim();
+    const link = document.createElement("a");
+    link.className = "player-stat-link";
+    link.href = `hrac.html?player=${encodeURIComponent(getPlayerSlug(name))}`;
+    link.textContent = name;
+    nameNode.replaceWith(link);
+  });
+}
+
+function showPlayerProfileError(text) {
+  const error = document.querySelector("#player-profile-error");
+
+  if (error) {
+    error.textContent = text;
+    error.hidden = false;
+  }
+}
+
+async function renderPlayerProfile() {
+  const profileStats = document.querySelector("#player-profile-stats");
+
+  if (!profileStats) {
+    return;
+  }
+
+  const slug = new URLSearchParams(window.location.search).get("player");
+
+  if (!slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
+    showPlayerProfileError("Hráča sa nepodarilo nájsť.");
+    return;
+  }
+
+  const response = await fetch("hraci.html");
+
+  if (!response.ok) {
+    throw new Error(`Nepodarilo sa načítať štatistiky hráčov (${response.status}).`);
+  }
+
+  const sourceDocument = new DOMParser().parseFromString(await response.text(), "text/html");
+  const matchingSections = [...sourceDocument.querySelectorAll(".player-stat-section")].filter((section) =>
+    [...section.querySelectorAll(".player-stat-player")]
+      .some((player) => getPlayerSlug(player.textContent) === slug),
+  );
+
+  if (!matchingSections.length) {
+    showPlayerProfileError("Hráča sa nepodarilo nájsť.");
+    return;
+  }
+
+  const playerName = [...matchingSections[0].querySelectorAll(".player-stat-player")]
+    .find((player) => getPlayerSlug(player.textContent) === slug)
+    .textContent.trim();
+  const heading = document.querySelector("#player-profile-name");
+  const portrait = document.querySelector(".player-profile-photo");
+  heading.textContent = playerName;
+  document.title = `${playerName} | 7. Liga`;
+  portrait.alt = `Profilová fotografia hráča ${playerName}`;
+
+  profileStats.append(...matchingSections.map((section) => section.cloneNode(true)));
+  linkStatisticPlayers(profileStats);
+}
+
 function syncFavoriteButtons() {
   const favorites = readFavorites();
 
@@ -229,8 +312,13 @@ function filterArticles() {
 }
 
 addRosterFavoriteButtons();
+linkStatisticPlayers();
 renderFavorites();
 syncFavoriteButtons();
+renderPlayerProfile().catch((error) => {
+  console.error(error);
+  showPlayerProfileError("Štatistiky hráča sa nepodarilo načítať.");
+});
 
 if (articleClubFilter && articleSeasonFilter && articleFilterEmpty) {
   articleClubFilter.addEventListener("change", filterArticles);
