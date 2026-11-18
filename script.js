@@ -10,6 +10,8 @@ const favoritesEmpty = document.querySelector("#favorites-empty");
 const articleClubFilter = document.querySelector("#article-club-filter");
 const articleSeasonFilter = document.querySelector("#article-season-filter");
 const articleFilterEmpty = document.querySelector("#article-filter-empty");
+const roundFilter = document.querySelector("#round-filter");
+const matchRoundSections = [...document.querySelectorAll("[data-round-section]")];
 const message = document.querySelector(".interaction-message");
 const favoritesStorageKey = "7liga-favorites";
 const typeLabels = {
@@ -311,6 +313,14 @@ function filterArticles() {
   articleFilterEmpty.hidden = visibleArticles > 0;
 }
 
+function filterMatchRounds() {
+  const selectedRound = roundFilter.value;
+
+  matchRoundSections.forEach((section) => {
+    section.hidden = selectedRound !== "all" && section.dataset.roundSection !== selectedRound;
+  });
+}
+
 addRosterFavoriteButtons();
 linkStatisticPlayers();
 renderFavorites();
@@ -324,6 +334,11 @@ if (articleClubFilter && articleSeasonFilter && articleFilterEmpty) {
   articleClubFilter.addEventListener("change", filterArticles);
   articleSeasonFilter.addEventListener("change", filterArticles);
   filterArticles();
+}
+
+if (roundFilter) {
+  roundFilter.addEventListener("change", filterMatchRounds);
+  filterMatchRounds();
 }
 
 function showSearchMessage(text) {
