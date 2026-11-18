@@ -11,8 +11,9 @@ Implementované sú responzívna úvodná obrazovka, klientská demo registráci
 - Lupa otvorí vyhľadávacie pole v hlavičke, ktoré sa rozšíri doľava a zalomí odkazy namiesto ich prekrytia. Vyhľadávanie podporuje typované záznamy článkov, hráčov a klubov; aktuálne sú v indexe len články.
 - Vyhľadávanie normalizuje diakritiku a zatvára sa klávesom Escape alebo kliknutím mimo lišty.
 - Prihlásenie alebo registrácia cez navigáciu otvorí `prihlasenie.html`; formulár podporuje prihlásenie e-mailom alebo prezývkou a registráciu s prezývkou, e-mailom a heslom. Testovací účet: `fanusik@liga.sk`, heslo `123456`.
-- Stav prihlásenia sa ukladá do `localStorage` a premieta sa do navigácie na všetkých stránkach. Prihlásený používateľ otvorí `profil.html`, kde môže skontrolovať údaje, odhlásiť sa a prezerať či odoberať svoje obľúbené kluby a hráčov.
+- Stav prihlásenia sa ukladá do `localStorage` a premieta sa do navigácie na všetkých stránkach. Prihlásený používateľ otvorí `profil.html`, kde môže skontrolovať svoje údaje a odhlásiť sa.
 - Obľúbené kluby a hráči sa ukladajú priamo k príslušnému používateľovi. Srdiečko vyžaduje prihlásenie; staršie uložené obľúbené sa pri prvom prihlásení prenesú do účtu.
+- Stránka `oblubene.html` zobrazuje obľúbené kluby a hráčov vrátane klubových log, odkazov na profily a možnosti odstránenia.
 - Riadky ligovej tabuľky otvárajú profily klubov v `kluby/`. Srdiečko na profile klubu pridáva alebo odoberá klub z používateľovho zoznamu obľúbených.
 - Profily všetkých ôsmich klubov zobrazujú deväť hráčov s číslom, menom a pozíciou. Srdiečko pri hráčovi prepína jeho stav a ukladá meno, klub, číslo dresu a pozíciu do používateľského profilu; hráč je uvedený aj na stránke `oblubene.html`.
 - Každý klubový profil obsahuje vymyslenú kontaktnú osobu a ukážkovú e-mailovú adresu na rezervovanej doméne `example.com`.

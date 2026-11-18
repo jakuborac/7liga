@@ -318,7 +318,6 @@ function writeFavorites(favorites) {
 function createFavoriteItem(favorite) {
   const item = document.createElement("li");
   const entry = document.createElement("div");
-  const type = document.createElement("span");
   const logo = document.createElement("img");
   const link = document.createElement("a");
   const content = document.createElement("div");
@@ -329,8 +328,6 @@ function createFavoriteItem(favorite) {
 
   item.className = "favorite-item";
   entry.className = "favorite-entry";
-  type.className = "favorite-entry-type";
-  type.textContent = favorite.type === "club" ? "Klub" : "Hráč";
   logo.className = "favorite-entry-logo";
   logo.alt = club ? `Logo klubu ${club.name}` : "";
   logo.hidden = !club;
@@ -370,7 +367,7 @@ function createFavoriteItem(favorite) {
     }
   });
 
-  entry.append(type, logo, content);
+  entry.append(logo, content);
   item.append(entry, removeButton);
   return item;
 }
@@ -401,16 +398,6 @@ function renderFavorites() {
       ? "Zatiaľ tu nemáš žiadne obľúbené kluby ani hráčov."
       : "Prihlás sa, aby si si mohol ukladať obľúbené kluby a hráčov.";
   }
-  renderFavoriteList(
-    document.querySelector("#profile-clubs-list"),
-    document.querySelector("#profile-clubs-empty"),
-    favorites.filter((favorite) => favorite.type === "club"),
-  );
-  renderFavoriteList(
-    document.querySelector("#profile-players-list"),
-    document.querySelector("#profile-players-empty"),
-    favorites.filter((favorite) => favorite.type === "player"),
-  );
 }
 
 function updateAccountNavigation() {

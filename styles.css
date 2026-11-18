@@ -1309,7 +1309,7 @@ a {
 
 .favorite-entry {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
   min-width: 0;
 }
@@ -1323,14 +1323,6 @@ a {
 .favorite-entry-details {
   color: var(--muted);
   font-size: 13px;
-}
-
-.favorite-entry-type {
-  flex: 0 0 auto;
-  color: var(--red);
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
 }
 
 .favorite-entry-link {
@@ -2173,10 +2165,6 @@ a {
 
   .favorite-entry {
     gap: 8px;
-  }
-
-  .favorite-entry-type {
-    font-size: 9px;
   }
 
   .favorite-remove {
