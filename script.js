@@ -12,6 +12,10 @@ const articleSeasonFilter = document.querySelector("#article-season-filter");
 const articleFilterEmpty = document.querySelector("#article-filter-empty");
 const roundFilter = document.querySelector("#round-filter");
 const matchRoundSections = [...document.querySelectorAll("[data-round-section]")];
+const matchDialog = document.querySelector("#match-dialog");
+const matchDetailRound = document.querySelector("#match-detail-round");
+const matchDetailBody = document.querySelector("#match-detail-body");
+const matchDialogClose = document.querySelector(".match-dialog-close");
 const message = document.querySelector(".interaction-message");
 const favoritesStorageKey = "7liga-favorites";
 const typeLabels = {
@@ -20,6 +24,107 @@ const typeLabels = {
   club: "Klub",
   result: "Výsledok",
 };
+const matchTeams = {
+  "tatran-lev": {
+    name: "FC Tatran Lev",
+    logo: "img/kluby/tatran_lev-removebg-preview.png",
+    href: "kluby/tatran-lev.html",
+    scorers: ["Dávid Szabó", "Samuel Polák", "Filip Nagy", "Martin Tóth", "Patrik Molnár"],
+    cardPlayers: ["Tomáš Horváth", "Jakub Varga", "Lukáš Baláž"],
+  },
+  "karpaty-vlci": {
+    name: "SK Karpaty Vlci",
+    logo: "img/kluby/karpaty-removebg-preview.png",
+    href: "kluby/karpaty-vlci.html",
+    scorers: ["Juraj Blaho", "Erik Zeman", "Dominik Oravec", "Adam Gál", "Kristián Benko"],
+    cardPlayers: ["Andrej Šimko", "Matúš Kollár", "Peter Hudák"],
+  },
+  "nitra-corgon": {
+    name: "AC Nitra Corgoň",
+    logo: "img/kluby/corgon-removebg-preview.png",
+    href: "kluby/nitra-corgon.html",
+    scorers: ["Viktor Valent", "Denis Sýkora", "Boris Hruška", "Matej Urban", "Alexej Černý"],
+    cardPlayers: ["Štefan Bartoš", "Richard Takáč", "Oliver Dudáš"],
+  },
+  "dynamo-blesk": {
+    name: "TJ Dynamo Blesk",
+    logo: "img/kluby/blesk-removebg-preview.png",
+    href: "kluby/dynamo-blesk.html",
+    scorers: ["Adrián Chovan", "Nicolas Mlynár", "Miroslav Kováčik", "Sebastián Pál", "Ondrej Lacko"],
+    cardPlayers: ["Róbert Farkaš", "Daniel Gajdoš", "Ján Kmeť"],
+  },
+  "topol-orly": {
+    name: "FC Topoľ Orly",
+    logo: "img/kluby/orly.png",
+    href: "kluby/topol-orly.html",
+    scorers: ["Nikolas Švec", "Maroš Bílek", "Radoslav Juhász", "Damián Holub", "Tobias Straka"],
+    cardPlayers: ["Tibor Vlk", "Norbert Fehér", "Kevin Meszároš"],
+  },
+  "horal-hrad": {
+    name: "ŠK Horal Hrad",
+    logo: "img/kluby/horal-removebg-preview.png",
+    href: "kluby/horal-hrad.html",
+    scorers: ["Milan Štefánik", "René Janík", "František Moravčík", "Marián Hlinka", "Gabriel Žák"],
+    cardPlayers: ["Igor Paška", "Stanislav Kováč", "Ľuboš Dubovský"],
+  },
+  "vulkan-ruda": {
+    name: "ŠK Vulkán Ruda",
+    logo: "img/kluby/vulkan-removebg-preview.png",
+    href: "kluby/vulkan-ruda.html",
+    scorers: ["Vincent Hrubý", "Leoš Malý", "Zdenko Pastorek", "Anton Nemec", "Roland Kubík"],
+    cardPlayers: ["Marcel Danko", "Kamil Sedlák", "Jaroslav Kováč"],
+  },
+  "druzstevnik-klas": {
+    name: "TJ Družstevník Klas",
+    logo: "img/kluby/klaś-removebg-preview.png",
+    href: "kluby/druzstevnik-klas.html",
+    scorers: ["Gábor Molnár", "Tamás Horváth", "Csaba Varga", "Attila Kiss", "Zoltán Németh"],
+    cardPlayers: ["Karol Végh", "Ladislav Papp", "Imrich Szilágyi"],
+  },
+};
+const round14MatchDetails = {
+  "r14-1": {
+    halftime: "1 : 1",
+    events: [
+      { minute: 14, minuteLabel: "14'", type: "goal", team: "tatran-lev", player: "Dávid Szabó", score: "1:0" },
+      { minute: 33, minuteLabel: "33'", type: "goal", team: "karpaty-vlci", player: "Juraj Blaho", score: "1:1" },
+      { minute: 41, minuteLabel: "41'", type: "yellow", team: "karpaty-vlci", player: "Andrej Šimko" },
+      { minute: 61, minuteLabel: "61'", type: "goal", team: "tatran-lev", player: "Samuel Polák", score: "2:1" },
+      { minute: 75, minuteLabel: "75'", type: "yellow", team: "tatran-lev", player: "Tomáš Horváth" },
+      { minute: 84, minuteLabel: "84'", type: "goal", team: "tatran-lev", player: "Dávid Szabó", score: "3:1" },
+    ],
+  },
+  "r14-2": {
+    halftime: "1 : 0",
+    events: [
+      { minute: 28, minuteLabel: "28'", type: "goal", team: "nitra-corgon", player: "Viktor Valent", score: "1:0" },
+      { minute: 52, minuteLabel: "52'", type: "yellow", team: "dynamo-blesk", player: "Róbert Farkaš" },
+      { minute: 79, minuteLabel: "79'", type: "goal", team: "nitra-corgon", player: "Boris Hruška", score: "2:0" },
+      { minute: 88, minuteLabel: "88'", type: "red", team: "dynamo-blesk", player: "Daniel Gajdoš" },
+    ],
+  },
+  "r14-3": {
+    halftime: "0 : 1",
+    events: [
+      { minute: 19, minuteLabel: "19'", type: "goal", team: "horal-hrad", player: "Milan Štefánik", score: "0:1" },
+      { minute: 37, minuteLabel: "37'", type: "yellow", team: "horal-hrad", player: "Igor Paška" },
+      { minute: 64, minuteLabel: "64'", type: "goal", team: "topol-orly", player: "Nikolas Švec", score: "1:1" },
+      { minute: 71, minuteLabel: "71'", type: "yellow", team: "topol-orly", player: "Tibor Vlk" },
+      { minute: 91, minuteLabel: "90+1'", type: "goal", team: "topol-orly", player: "Radoslav Juhász", score: "2:1" },
+    ],
+  },
+  "r14-4": {
+    halftime: "1 : 0",
+    events: [
+      { minute: 22, minuteLabel: "22'", type: "goal", team: "vulkan-ruda", player: "Vincent Hrubý", score: "1:0" },
+      { minute: 44, minuteLabel: "44'", type: "yellow", team: "vulkan-ruda", player: "Marcel Danko" },
+      { minute: 59, minuteLabel: "59'", type: "yellow", team: "druzstevnik-klas", player: "Karol Végh" },
+      { minute: 68, minuteLabel: "68'", type: "goal", team: "druzstevnik-klas", player: "Gábor Molnár", score: "1:1" },
+      { minute: 82, minuteLabel: "82'", type: "red", team: "vulkan-ruda", player: "Zdenko Pastorek" },
+    ],
+  },
+};
+let matchesData = [];
 const searchRecords = [...document.querySelectorAll("[data-search-item]")]
   .map((element) => {
     const title = element.dataset.searchTitle || element.querySelector("h2, h3")?.textContent.trim() || "";
@@ -228,6 +333,345 @@ function showPlayerProfileError(text) {
   }
 }
 
+function generateMatchStatistics(seed, homeScore, awayScore) {
+  const homePossession = 44 + (seed % 13);
+  const homeShots = Math.max(homeScore + 2, 8 + (seed % 8));
+  const awayShots = Math.max(awayScore + 2, 7 + ((seed + 3) % 8));
+
+  return {
+    possession: { home: homePossession, away: 100 - homePossession, suffix: "%" },
+    shots: { home: homeShots, away: awayShots, suffix: "" },
+    shotsOnTarget: {
+      home: Math.min(homeShots, Math.max(homeScore, 2 + (seed % 4))),
+      away: Math.min(awayShots, Math.max(awayScore, 2 + ((seed + 2) % 4))),
+      suffix: "",
+    },
+    corners: { home: 2 + (seed % 8), away: 2 + ((seed + 3) % 8), suffix: "" },
+    fouls: { home: 7 + (seed % 10), away: 8 + ((seed + 4) % 10), suffix: "" },
+  };
+}
+
+function initializeMatchRows() {
+  document.querySelectorAll("[data-round-section]").forEach((section) => {
+    const round = Number(section.dataset.roundSection);
+
+    section.querySelectorAll(".match-row").forEach((row, index) => {
+      const [homeElement, scoreElement, awayElement] = row.children;
+      const homeName = homeElement.querySelector("span")?.textContent.trim();
+      const awayName = awayElement.querySelector("span")?.textContent.trim();
+      const homeTeamEntry = Object.entries(matchTeams).find(([, team]) => team.name === homeName);
+      const awayTeamEntry = Object.entries(matchTeams).find(([, team]) => team.name === awayName);
+      const [homeScore, awayScore] = scoreElement.textContent.split(":").map(Number);
+
+      if (!homeTeamEntry || !awayTeamEntry || !Number.isInteger(homeScore) || !Number.isInteger(awayScore)) {
+        console.error("Zápas nemá platné údaje tímov alebo skóre.", row);
+        showMessage("Zápas sa nepodarilo pripraviť.");
+        return;
+      }
+
+      const [homeTeamCode, homeTeam] = homeTeamEntry;
+      const [awayTeamCode, awayTeam] = awayTeamEntry;
+      const matchId = `r${round}-${index + 1}`;
+      row.dataset.matchId = matchId;
+      row.dataset.homeTeam = homeTeamCode;
+      row.dataset.awayTeam = awayTeamCode;
+      row.dataset.homeScore = String(homeScore);
+      row.dataset.awayScore = String(awayScore);
+
+      const createFavoriteButton = (team) => {
+        const button = document.createElement("button");
+        button.className = "favorite-link match-team-favorite";
+        button.type = "button";
+        button.dataset.addFavorite = "";
+        button.dataset.favoriteType = "club";
+        button.dataset.favoriteTitle = team.name;
+        button.dataset.favoriteHref = team.href;
+        button.setAttribute("aria-label", `Pridať klub ${team.name} medzi obľúbené`);
+        button.setAttribute("aria-pressed", "false");
+        return button;
+      };
+
+      homeElement.after(createFavoriteButton(homeTeam));
+      awayElement.before(createFavoriteButton(awayTeam));
+
+      const detailButton = document.createElement("button");
+      detailButton.className = "match-detail-trigger";
+      detailButton.type = "button";
+      detailButton.dataset.matchId = matchId;
+      detailButton.setAttribute(
+        "aria-label",
+        `Zobraziť detail ${round}. kola: ${homeTeam.name} ${homeScore} : ${awayScore} ${awayTeam.name}`,
+      );
+      row.append(detailButton);
+    });
+  });
+}
+
+function generateMatchEvents(match, seed) {
+  const goalEvents = [];
+
+  [[match.homeTeam, match.homeScore, 5], [match.awayTeam, match.awayScore, 19]].forEach(
+    ([teamCode, goalCount, offset]) => {
+      const team = matchTeams[teamCode];
+
+      for (let goalIndex = 0; goalIndex < goalCount; goalIndex += 1) {
+        const minute = 7 + ((seed * 11 + goalIndex * 23 + offset) % 83);
+        const player = team.scorers[(seed + goalIndex) % team.scorers.length];
+        goalEvents.push({ minute, minuteLabel: `${minute}'`, type: "goal", team: teamCode, player });
+      }
+    },
+  );
+
+  goalEvents.sort((first, second) => first.minute - second.minute);
+  let homeGoals = 0;
+  let awayGoals = 0;
+
+  goalEvents.forEach((event) => {
+    if (event.team === match.homeTeam) {
+      homeGoals += 1;
+    } else {
+      awayGoals += 1;
+    }
+
+    event.score = `${homeGoals}:${awayGoals}`;
+  });
+
+  const cardEvents = Array.from({ length: 2 + (seed % 3) }, (_, index) => {
+    const teamCode = index % 2 === 0 ? match.homeTeam : match.awayTeam;
+    const team = matchTeams[teamCode];
+    const minute = 12 + ((seed * 3 + index * 19) % 77);
+
+    return {
+      minute,
+      minuteLabel: `${minute}'`,
+      type: (seed + index) % 13 === 0 ? "red" : "yellow",
+      team: teamCode,
+      player: team.cardPlayers[(seed + index) % team.cardPlayers.length],
+    };
+  });
+  const events = [...goalEvents, ...cardEvents].sort((first, second) => first.minute - second.minute);
+  let halftimeHome = 0;
+  let halftimeAway = 0;
+
+  goalEvents.forEach((event) => {
+    if (event.minute <= 45) {
+      if (event.team === match.homeTeam) {
+        halftimeHome += 1;
+      } else {
+        halftimeAway += 1;
+      }
+    }
+  });
+
+  return { events, halftime: `${halftimeHome} : ${halftimeAway}` };
+}
+
+function buildMatchesData() {
+  return [...document.querySelectorAll(".match-row[data-match-id]")].map((row, index) => {
+    const section = row.closest("[data-round-section]");
+    const match = {
+      id: row.dataset.matchId,
+      round: Number(section.dataset.roundSection),
+      homeTeam: row.dataset.homeTeam,
+      awayTeam: row.dataset.awayTeam,
+      homeScore: Number(row.dataset.homeScore),
+      awayScore: Number(row.dataset.awayScore),
+    };
+    const seed = match.round * 31 + index * 17 + 1;
+    const details = match.round === 14
+      ? round14MatchDetails[match.id]
+      : generateMatchEvents(match, seed);
+
+    return {
+      ...match,
+      halftime: details.halftime,
+      events: details.events,
+      statistics: generateMatchStatistics(seed, match.homeScore, match.awayScore),
+    };
+  });
+}
+
+function addMatchFavoriteIcons() {
+  document.querySelectorAll(".match-team-favorite").forEach((button) => {
+    const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    icon.setAttribute("class", "favorite-icon");
+    icon.setAttribute("viewBox", "0 0 24 24");
+    icon.setAttribute("aria-hidden", "true");
+    path.setAttribute("d", "M20.4 8.7c0 4.8-7.4 9.7-8.1 10.1a.6.6 0 0 1-.6 0c-.7-.4-8.1-5.3-8.1-10.1a4.4 4.4 0 0 1 8.4-1.8 4.4 4.4 0 0 1 8.4 1.8Z");
+    icon.append(path);
+    button.append(icon);
+  });
+}
+
+function createMatchTeamElement(teamCode, className) {
+  const team = matchTeams[teamCode];
+  const element = document.createElement("div");
+  const logo = document.createElement("img");
+  const name = document.createElement("span");
+  element.className = className;
+  logo.src = team.logo;
+  logo.alt = "";
+  name.textContent = team.name;
+  element.append(logo, name);
+  return element;
+}
+
+function createMatchEventList(match, teamCode) {
+  const list = document.createElement("ol");
+  list.className = "match-event-list";
+  const events = match.events.filter((event) => event.team === teamCode);
+
+  if (!events.length) {
+    const empty = document.createElement("li");
+    empty.textContent = "Bez udalostí";
+    list.append(empty);
+    return list;
+  }
+
+  events.forEach((event) => {
+    const item = document.createElement("li");
+    const time = document.createElement("time");
+    const icon = document.createElement("span");
+    const description = document.createElement("span");
+    const iconByType = { goal: "⚽", yellow: "🟨", red: "🟥" };
+    const labelByType = { goal: "Gól", yellow: "Žltá karta", red: "Červená karta" };
+    item.className = "match-event";
+    time.textContent = event.minuteLabel;
+    icon.className = "match-event-icon";
+    icon.setAttribute("aria-hidden", "true");
+    icon.textContent = iconByType[event.type];
+    description.textContent = `${labelByType[event.type]} – ${event.player}${event.score ? ` (${event.score})` : ""}`;
+    item.append(time, icon, description);
+    list.append(item);
+  });
+
+  return list;
+}
+
+function createMatchEventsPanel(match) {
+  const section = document.createElement("section");
+  const heading = document.createElement("h3");
+  const columns = document.createElement("div");
+  section.className = "match-detail-section";
+  heading.className = "match-detail-section-heading";
+  heading.textContent = "GÓLY A KARTY";
+  columns.className = "match-event-columns";
+
+  [match.homeTeam, match.awayTeam].forEach((teamCode) => {
+    const teamSection = document.createElement("div");
+    const teamHeading = document.createElement("h4");
+    teamSection.className = "match-event-team";
+    teamHeading.textContent = matchTeams[teamCode].name;
+    teamSection.append(teamHeading, createMatchEventList(match, teamCode));
+    columns.append(teamSection);
+  });
+
+  section.append(heading, columns);
+  return section;
+}
+
+function createMatchStatisticsPanel(match) {
+  const section = document.createElement("section");
+  const heading = document.createElement("h3");
+  const rows = document.createElement("div");
+  const labels = [
+    ["possession", "Držanie lopty"],
+    ["shots", "Strely celkom"],
+    ["shotsOnTarget", "Strely na bránu"],
+    ["corners", "Rohové kopy"],
+    ["fouls", "Fauly"],
+  ];
+  section.className = "match-detail-section";
+  heading.className = "match-detail-section-heading";
+  heading.textContent = "ZÁKLADNÉ ŠTATISTIKY";
+  rows.className = "match-stat-rows";
+
+  labels.forEach(([key, label]) => {
+    const values = match.statistics[key];
+    const row = document.createElement("div");
+    const valuesContainer = document.createElement("div");
+    const homeValue = document.createElement("span");
+    const statLabel = document.createElement("span");
+    const awayValue = document.createElement("span");
+    const bar = document.createElement("div");
+    const homeBar = document.createElement("span");
+    const awayBar = document.createElement("span");
+    const total = values.home + values.away || 1;
+    const homeShare = Math.round((values.home / total) * 100);
+    row.className = "match-stat-row";
+    const displayValue = (value) => `${value}${values.suffix}`;
+    homeValue.textContent = displayValue(values.home);
+    statLabel.textContent = label;
+    awayValue.textContent = displayValue(values.away);
+    valuesContainer.className = "match-stat-values";
+    bar.className = "match-stat-bar";
+    bar.setAttribute("aria-hidden", "true");
+    homeBar.className = "match-stat-bar-home";
+    awayBar.className = "match-stat-bar-away";
+    homeBar.style.width = `${homeShare}%`;
+    awayBar.style.width = `${100 - homeShare}%`;
+    valuesContainer.append(homeValue, statLabel, awayValue);
+    bar.append(homeBar, awayBar);
+    row.append(valuesContainer, bar);
+    rows.append(row);
+  });
+
+  section.append(heading, rows);
+  return section;
+}
+
+function showMatchDetails(matchId) {
+  const match = matchesData.find((candidate) => candidate.id === matchId);
+
+  if (!match || !matchDialog || !matchDetailRound || !matchDetailBody) {
+    showMessage("Detail zápasu sa nepodarilo zobraziť.");
+    return;
+  }
+
+  const scoreboard = document.createElement("div");
+  const score = document.createElement("div");
+  const finalScore = document.createElement("strong");
+  const halftime = document.createElement("span");
+  scoreboard.className = "match-detail-scoreboard";
+  score.className = "match-detail-final-score";
+  finalScore.textContent = `${match.homeScore} : ${match.awayScore}`;
+  halftime.textContent = `Polčas (${match.halftime})`;
+  score.append(finalScore, halftime);
+  scoreboard.append(
+    createMatchTeamElement(match.homeTeam, "match-detail-team match-detail-team-home"),
+    score,
+    createMatchTeamElement(match.awayTeam, "match-detail-team match-detail-team-away"),
+  );
+
+  matchDetailRound.textContent = `${match.round}. KOLO`;
+  matchDetailBody.replaceChildren(
+    scoreboard,
+    createMatchEventsPanel(match),
+    createMatchStatisticsPanel(match),
+  );
+  matchDialog.showModal();
+}
+
+function initializeMatchDetails() {
+  initializeMatchRows();
+  matchesData = buildMatchesData();
+  addMatchFavoriteIcons();
+
+  document.querySelectorAll(".match-detail-trigger[data-match-id]").forEach((button) => {
+    button.addEventListener("click", () => showMatchDetails(button.dataset.matchId));
+  });
+
+  if (matchDialog && matchDialogClose) {
+    matchDialogClose.addEventListener("click", () => matchDialog.close());
+    matchDialog.addEventListener("click", (event) => {
+      if (event.target === matchDialog) {
+        matchDialog.close();
+      }
+    });
+  }
+}
+
 async function renderPlayerProfile() {
   const profileStats = document.querySelector("#player-profile-stats");
 
@@ -323,6 +767,7 @@ function filterMatchRounds() {
 
 addRosterFavoriteButtons();
 linkStatisticPlayers();
+initializeMatchDetails();
 renderFavorites();
 syncFavoriteButtons();
 renderPlayerProfile().catch((error) => {
