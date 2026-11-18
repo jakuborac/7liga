@@ -4,7 +4,7 @@
 
 ## Aktuálny stav
 
-Implementované sú responzívna úvodná obrazovka, podstránka obľúbených, samostatné detaily troch najnovších článkov a profily ôsmich klubov. Úvodná stránka zobrazuje hornú navigáciu, najnovšie články, tabuľku klubov a spoločnú pätu. Profily hráčov, samostatná sekcia výsledkov, kontakt ani prihlásenie zatiaľ nie sú vytvorené. Fotografie článkov sú dočasne nahradené prázdnymi obrysovými rámčekmi a súpisky klubov čakajú na doplnenie.
+Implementované sú responzívna úvodná obrazovka, podstránka obľúbených, prehľad piatich článkov, detaily týchto článkov a profily ôsmich klubov. Úvodná stránka zobrazuje iba tri najnovšie články, tabuľku klubov a spoločnú pätu. Tlačidlo Fotoreporty zatiaľ oznamuje, že sekcia nie je dostupná. Profily hráčov, samostatná sekcia výsledkov, kontakt ani prihlásenie zatiaľ nie sú vytvorené. Súpisky klubov čakajú na doplnenie.
 
 ## Dostupné správanie
 
@@ -14,6 +14,8 @@ Implementované sú responzívna úvodná obrazovka, podstránka obľúbených, 
 - Riadky ligovej tabuľky otvárajú profily klubov v `kluby/`. Srdiečko na profile klubu pridáva alebo odoberá klub z rovnakého zoznamu obľúbených uloženého v `localStorage`.
 - Tlačidlo Kontakt zobrazí informačnú správu, kým nebudú doplnené kontaktné údaje.
 - Kliknutie na článok alebo jeho výsledok vo vyhľadávaní otvorí samostatnú podstránku článku; z detailu sa možno vrátiť na zoznam najnovších článkov.
+- Odkaz Články v hlavnej navigácii otvorí `clanky.html` s článkami a tlačidlom Fotoreporty.
+- `clanky.html` obsahuje päť článkov; úvodná stránka si ponecháva iba tri najnovšie.
 - Odkazy na nedostupné sekcie a prihlásenie zobrazia informačnú správu.
 - Rozloženie sa prispôsobuje menším obrazovkám.
 
@@ -24,10 +26,13 @@ Stránka používa čisté HTML, CSS a JavaScript bez frameworkov a externých k
 | Súbor | Obsah |
 | --- | --- |
 | `index.html` | Štruktúra úvodnej obrazovky |
+| `clanky.html` | Prehľad článkov a tlačidlo Fotoreporty |
 | `oblubene.html` | Podstránka obľúbených hráčov a klubov |
 | `clanok-derby.html` | Detail článku o miestnom derby |
 | `clanok-posily.html` | Detail článku o nových posilách |
 | `clanok-obcerstvenie.html` | Detail článku o občerstvení |
+| `clanok-priprava.html` | Detail článku o príprave na zápas |
+| `clanok-fanusikovia.html` | Detail článku o atmosfére na ihrisku |
 | `kluby/*.html` | Profily ôsmich klubov s informáciami a prázdnou šablónou súpisky |
 | `styles.css` | Vizuálny štýl a responzívne rozloženie |
 | `script.js` | Vyhľadávanie, prepnutie obľúbených a informačné správy |
@@ -41,6 +46,8 @@ V editore VS Code možno otvoriť `index.html` cez **Show Preview** alebo rozš�
 
 ## Posledná úprava
 
+- 2026-11-18: Odstránená spodná sekcia fotoreportov, pridané dva články do samostatného prehľadu; úvodná stránka zostala na troch najnovších.
+- 2026-11-18: Pridaný samostatný prehľad najnovších článkov a fotoreportov; navigácia a návrat z detailov vedú na túto stránku.
 - 2026-11-16: Články a výsledky ich vyhľadávania otvárajú samostatné responzívne detaily so spoločnou hlavičkou a pätičkou.
 - 2026-11-16: Ligová tabuľka zobrazuje osem klubov s logami, poradím, bodmi a gólovým rozdielom v zarovnaných, zaoblených riadkoch.
 - 2026-11-16: Riadky tabuľky otvárajú klubové profily; ich srdiečka zdieľajú a prepínajú stav obľúbených klubov.

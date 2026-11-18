@@ -243,6 +243,43 @@ a {
   margin: 62px auto 0;
 }
 
+.articles-page-layout {
+  width: min(1060px, 100%);
+  margin: 36px auto 0;
+}
+
+.photo-reports-button {
+  width: min(300px, 100%);
+  min-height: 60px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 34px;
+  border: 2px solid var(--soft-red);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--red);
+  font-size: 18px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.photo-reports-button:hover {
+  border-color: var(--red);
+  background: #fff;
+  transform: scale(1.02);
+}
+
+.articles-page-heading {
+  margin-bottom: 8px;
+}
+
+.articles-page-panel {
+  min-height: 0;
+}
+
 .club-layout {
   width: min(1060px, 100%);
   margin: 62px auto 0;
@@ -993,14 +1030,14 @@ a {
     grid-row: 1;
   }
 
-  .nav-link[href$="#clanky"] {
+  .nav-link[href$="clanky.html"] {
     grid-column: 3;
     grid-row: 1;
   }
 
   .primary-nav.search-open .nav-link[href$="#hraci"],
   .primary-nav.search-open .nav-link[href$="#vysledky"],
-  .primary-nav.search-open .nav-link[href$="#clanky"] {
+  .primary-nav.search-open .nav-link[href$="clanky.html"] {
     grid-row: 2;
   }
 
@@ -1020,6 +1057,16 @@ a {
 
   .favorites-layout {
     margin-top: 38px;
+  }
+
+  .articles-page-layout {
+    margin-top: 30px;
+  }
+
+  .photo-reports-button {
+    min-height: 54px;
+    margin-bottom: 26px;
+    font-size: 16px;
   }
 
   .club-layout {

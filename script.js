@@ -240,7 +240,9 @@ document.querySelectorAll("[data-demo-link]").forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
 
-    if (link.classList.contains("login-button")) {
+    if (link.classList.contains("photo-reports-button")) {
+      showMessage("Fotoreporty zatiaľ nie sú dostupné.");
+    } else if (link.classList.contains("login-button")) {
       showMessage("Prihlásenie zatiaľ nie je dostupné.");
     } else if (link.classList.contains("footer-contact")) {
       showMessage("Kontaktné údaje zatiaľ nie sú dostupné.");
