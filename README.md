@@ -4,7 +4,7 @@
 
 ## Aktuálny stav
 
-Implementované sú responzívna úvodná obrazovka, podstránka obľúbených, prehľad piatich článkov s filtrovaním podľa klubu a sezóny, detaily týchto článkov a profily ôsmich klubov s kompletnými súpiskami a fiktívnymi kontaktnými osobami. Úvodná stránka zobrazuje iba tri najnovšie články, tabuľku klubov a spoločnú pätu. Tlačidlo Fotoreporty zatiaľ oznamuje, že sekcia nie je dostupná. Profily hráčov, samostatná sekcia výsledkov, kontaktné údaje webu ani prihlásenie zatiaľ nie sú vytvorené.
+Implementované sú responzívna úvodná obrazovka, podstránka obľúbených, stránka hráčov so šiestimi tabuľkami štatistík, prehľad piatich článkov s filtrovaním podľa klubu a sezóny, detaily týchto článkov a profily ôsmich klubov s kompletnými súpiskami a fiktívnymi kontaktnými osobami. Úvodná stránka zobrazuje iba tri najnovšie články, tabuľku klubov a spoločnú pätu. Tlačidlo Fotoreporty zatiaľ oznamuje, že sekcia nie je dostupná. Profily hráčov, samostatná sekcia výsledkov, kontaktné údaje webu ani prihlásenie zatiaľ nie sú vytvorené.
 
 ## Dostupné správanie
 
@@ -14,6 +14,7 @@ Implementované sú responzívna úvodná obrazovka, podstránka obľúbených, 
 - Riadky ligovej tabuľky otvárajú profily klubov v `kluby/`. Srdiečko na profile klubu pridáva alebo odoberá klub z rovnakého zoznamu obľúbených uloženého v `localStorage`.
 - Profily všetkých ôsmich klubov zobrazujú deväť hráčov s číslom, menom a pozíciou. Srdiečko pri hráčovi prepína jeho stav a ukladá meno, klub, číslo dresu a pozíciu medzi obľúbené; hráč je uvedený aj na stránke `oblubene.html`.
 - Každý klubový profil obsahuje vymyslenú kontaktnú osobu a ukážkovú e-mailovú adresu na rezervovanej doméne `example.com`.
+- Odkaz HRÁČI v hlavnej navigácii otvorí `hraci.html`, ktorá zobrazuje tabuľky strelcov, asistencií, čistých kont, odohraných minút a kariet v responzívnej dvojstĺpcovej mriežke.
 - Tlačidlo Kontakt zobrazí informačnú správu, kým nebudú doplnené kontaktné údaje.
 - Kliknutie na článok alebo jeho výsledok vo vyhľadávaní otvorí samostatnú podstránku článku; z detailu sa možno vrátiť na zoznam najnovších článkov.
 - Odkaz Články v hlavnej navigácii otvorí `clanky.html` s článkami a tlačidlom Fotoreporty.
@@ -29,6 +30,7 @@ Stránka používa čisté HTML, CSS a JavaScript bez frameworkov a externých k
 | Súbor | Obsah |
 | --- | --- |
 | `index.html` | Štruktúra úvodnej obrazovky |
+| `hraci.html` | Šesť responzívnych tabuliek štatistík hráčov |
 | `clanky.html` | Prehľad článkov, filtre klubu a sezóny, tlačidlo Fotoreporty |
 | `oblubene.html` | Podstránka obľúbených hráčov a klubov |
 | `clanok-derby.html` | Detail článku o miestnom derby |
@@ -49,6 +51,7 @@ V editore VS Code možno otvoriť `index.html` cez **Show Preview** alebo rozš�
 
 ## Posledná úprava
 
+- 2026-11-18: Pridaná podstránka `hraci.html` so šiestimi tabuľkami štatistík; odkaz HRÁČI v navigácii teraz vedie na túto stránku.
 - 2026-11-18: Pridaný fiktívny kontakt s ukážkovou e-mailovou adresou na každý z ôsmich klubových profilov.
 - 2026-11-18: Doplnených deväť hráčov na súpisky všetkých ôsmich klubov; obľúbení hráči sa ukladajú aj s klubom, číslom a pozíciou.
 - 2026-11-18: Pridané filtre článkov podľa ôsmich klubov a sezóny 2026/2027.

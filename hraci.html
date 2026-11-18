@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Štatistiky hráčov 7. Ligy: strelci, asistencie, čisté kontá, minúty a karty.">
+  <title>Štatistiky hráčov | 7. Liga</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="7. Liga – úvodná stránka">
+      <span class="brand-mark" aria-hidden="true"><span>7<span class="brand-letters">LiGA</span></span></span>
+    </a>
+    <nav class="primary-nav" aria-label="Hlavná navigácia">
+      <div class="search-control">
+        <button class="icon-button search-toggle" type="button" aria-label="Vyhľadávanie" aria-expanded="false" aria-controls="search-panel">
+          <span class="search-icon" aria-hidden="true"></span>
+        </button>
+        <div class="search-panel" id="search-panel" hidden>
+          <label for="site-search">Hľadaj hráča, klub alebo článok</label>
+          <input id="site-search" type="search" placeholder="Meno hráča, klubu alebo článku..." autocomplete="off" aria-controls="search-results">
+          <p class="search-hint" id="search-hint">Výsledky sa zobrazia počas písania.</p>
+          <ul class="search-results" id="search-results" aria-live="polite"></ul>
+        </div>
+      </div>
+      <a class="nav-link" href="hraci.html" aria-current="page">HRÁČI</a>
+      <a class="nav-link" href="index.html#vysledky" data-demo-link>VÝSLEDKY</a>
+      <a class="nav-link" href="clanky.html">ČLÁNKY</a>
+    </nav>
+    <div class="account-actions">
+      <a class="favorite-link" href="oblubene.html" aria-label="Obľúbené kluby a hráči">
+        <svg class="favorite-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.4 8.7c0 4.8-7.4 9.7-8.1 10.1a.6.6 0 0 1-.6 0c-.7-.4-8.1-5.3-8.1-10.1a4.4 4.4 0 0 1 8.4-1.8 4.4 4.4 0 0 1 8.4 1.8Z"></path>
+        </svg>
+      </a>
+      <button class="login-button" type="button" data-demo-link>PRIHLÁSIŤ SA</button>
+    </div>
+  </header>
+
+  <main class="player-stats-layout">
+    <h1 class="section-heading player-stats-heading">ŠTATISTIKY HRÁČOV</h1>
+    <div class="player-stats-grid">
+      <section class="player-stat-section" aria-labelledby="top-scorers-heading">
+        <h2 class="section-heading" id="top-scorers-heading">STRELCI</h2>
+        <div class="player-stat-panel">
+          <table class="player-stat-table">
+            <thead><tr><th scope="col">PORADIE</th><th scope="col">HRÁČ</th><th scope="col">GÓLY</th></tr></thead>
+            <tbody>
+              <tr><td>1.</td><td><span class="player-stat-player"><img src="img/kluby/tatran_lev-removebg-preview.png" alt="FC Tatran Lev">Dávid Szabó</span></td><td>12</td></tr>
+              <tr><td>2.</td><td><span class="player-stat-player"><img src="img/kluby/karpaty-removebg-preview.png" alt="SK Karpaty Vlci">Juraj Blaho</span></td><td>10</td></tr>
+              <tr><td>3.</td><td><span class="player-stat-player"><img src="img/kluby/corgon-removebg-preview.png" alt="AC Nitra Corgoň">Viktor Valent</span></td><td>9</td></tr>
+              <tr><td>4.</td><td><span class="player-stat-player"><img src="img/kluby/tatran_lev-removebg-preview.png" alt="FC Tatran Lev">Samuel Polák</span></td><td>8</td></tr>
+              <tr><td>5.</td><td><span class="player-stat-player"><img src="img/kluby/blesk-removebg-preview.png" alt="TJ Dynamo Blesk">Adrián Chovan</span></td><td>7</td></tr>
+              <tr><td>6.</td><td><span class="player-stat-player"><img src="img/kluby/orly.png" alt="FC Topoľ Orly">Nikolas Švec</span></td><td>6</td></tr>
+              <tr><td>7.</td><td><span class="player-stat-player"><img src="img/kluby/karpaty-removebg-preview.png" alt="SK Karpaty Vlci">Erik Zeman</span></td><td>5</td></tr>
+              <tr><td>8.</td><td><span class="player-stat-player"><img src="img/kluby/horal-removebg-preview.png" alt="ŠK Horal Hrad">Milan Štefánik</span></td><td>4</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="player-stat-section" aria-labelledby="assists-heading">
+        <h2 class="section-heading" id="assists-heading">ASISTENCIE</h2>
+        <div class="player-stat-panel">
+          <table class="player-stat-table">
+            <thead><tr><th scope="col">PORADIE</th><th scope="col">HRÁČ</th><th scope="col">ASISTENCIE</th></tr></thead>
+            <tbody>
+              <tr><td>1.</td><td><span class="player-stat-player"><img src="img/kluby/tatran_lev-removebg-preview.png" alt="FC Tatran Lev">Filip Nagy</span></td><td>9</td></tr>
+              <tr><td>2.</td><td><span class="player-stat-player"><img src="img/kluby/karpaty-removebg-preview.png" alt="SK Karpaty Vlci">Dominik Oravec</span></td><td>8</td></tr>
+              <tr><td>3.</td><td><span class="player-stat-player"><img src="img/kluby/tatran_lev-removebg-preview.png" alt="FC Tatran Lev">Martin Tóth</span></td><td>7</td></tr>
+              <tr><td>4.</td><td><span class="player-stat-player"><img src="img/kluby/corgon-removebg-preview.png" alt="AC Nitra Corgoň">Boris Hruška</span></td><td>6</td></tr>
+              <tr><td>5.</td><td><span class="player-stat-player"><img src="img/kluby/blesk-removebg-preview.png" alt="TJ Dynamo Blesk">Miroslav Kováčik</span></td><td>6</td></tr>
+              <tr><td>6.</td><td><span class="player-stat-player"><img src="img/kluby/orly.png" alt="FC Topoľ Orly">Radoslav Juhász</span></td><td>5</td></tr>
+              <tr><td>7.</td><td><span class="player-stat-player"><img src="img/kluby/horal-removebg-preview.png" alt="ŠK Horal Hrad">Marián Hlinka</span></td><td>4</td></tr>
+              <tr><td>8.</td><td><span class="player-stat-player"><img src="img/kluby/klaś-removebg-preview.png" alt="TJ Družstevník Klas">Zoltán Németh</span></td><td>3</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="player-stat-section" aria-labelledby="clean-sheets-heading">
+        <h2 class="section-heading" id="clean-sheets-heading">ČISTÉ KONTÁ</h2>
+        <div class="player-stat-panel">
+          <table class="player-stat-table">
+            <thead><tr><th scope="col">PORADIE</th><th scope="col">HRÁČ</th><th scope="col">KONTÁ</th></tr></thead>
+            <tbody>
+              <tr><td>1.</td><td><span class="player-stat-player"><img src="img/kluby/tatran_lev-removebg-preview.png" alt="FC Tatran Lev">Marek Kováč</span></td><td>7</td></tr>
+              <tr><td>2.</td><td><span class="player-stat-player"><img src="img/kluby/karpaty-removebg-preview.png" alt="SK Karpaty Vlci">Michal Kučera</span></td><td>6</td></tr>
+              <tr><td>3.</td><td><span class="player-stat-player"><img src="img/kluby/corgon-removebg-preview.png" alt="AC Nitra Corgoň">Roman Kráľ</span></td><td>5</td></tr>
+              <tr><td>4.</td><td><span class="player-stat-player"><img src="img/kluby/blesk-removebg-preview.png" alt="TJ Dynamo Blesk">Branislav Majer</span></td><td>4</td></tr>
+              <tr><td>5.</td><td><span class="player-stat-player"><img src="img/kluby/orly.png" alt="FC Topoľ Orly">Pavol Sloboda</span></td><td>3</td></tr>
+              <tr><td>6.</td><td><span class="player-stat-player"><img src="img/kluby/horal-removebg-preview.png" alt="ŠK Horal Hrad">Vladimír Baran</span></td><td>3</td></tr>
+              <tr><td>7.</td><td><span class="player-stat-player"><img src="img/kluby/vulkan-removebg-preview.png" alt="ŠK Vulkán Ruda">Dušan Rusnák</span></td><td>2</td></tr>
+              <tr><td>8.</td><td><span class="player-stat-player"><img src="img/kluby/klaś-removebg-preview.png" alt="TJ Družstevník Klas">Jozef Kováč</span></td><td>1</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="player-stat-section" aria-labelledby="minutes-heading">
+        <h2 class="section-heading" id="minutes-heading">ODOHRANÉ MINÚTY</h2>
+        <div class="player-stat-panel">
+          <table class="player-stat-table">
+            <thead><tr><th scope="col">PORADIE</th><th scope="col">HRÁČ</th><th scope="col">MINÚTY</th></tr></thead>
+            <tbody>
+              <tr><td>1.</td><td><span class="player-stat-player"><img src="img/kluby/tatran_lev-removebg-preview.png" alt="FC Tatran Lev">Marek Kováč</span></td><td>1 260'</td></tr>
+              <tr><td>2.</td><td><span class="player-stat-player"><img src="img/kluby/karpaty-removebg-preview.png" alt="SK Karpaty Vlci">Michal Kučera</span></td><td>1 260'</td></tr>
+              <tr><td>3.</td><td><span class="player-stat-player"><img src="img/kluby/tatran_lev-removebg-preview.png" alt="FC Tatran Lev">Jakub Varga</span></td><td>1 215'</td></tr>
+              <tr><td>4.</td><td><span class="player-stat-player"><img src="img/kluby/corgon-removebg-preview.png" alt="AC Nitra Corgoň">Štefan Bartoš</span></td><td>1 190'</td></tr>
+              <tr><td>5.</td><td><span class="player-stat-player"><img src="img/kluby/blesk-removebg-preview.png" alt="TJ Dynamo Blesk">Ján Kmeť</span></td><td>1 170'</td></tr>
+              <tr><td>6.</td><td><span class="player-stat-player"><img src="img/kluby/tatran_lev-removebg-preview.png" alt="FC Tatran Lev">Filip Nagy</span></td><td>1 145'</td></tr>
+              <tr><td>7.</td><td><span class="player-stat-player"><img src="img/kluby/horal-removebg-preview.png" alt="ŠK Horal Hrad">Stanislav Kováč</span></td><td>1 120'</td></tr>
+              <tr><td>8.</td><td><span class="player-stat-player"><img src="img/kluby/klaś-removebg-preview.png" alt="TJ Družstevník Klas">Ladislav Papp</span></td><td>1 080'</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="player-stat-section" aria-labelledby="yellow-cards-heading">
+        <h2 class="section-heading" id="yellow-cards-heading">ŽLTÉ KARTY</h2>
+        <div class="player-stat-panel">
+          <table class="player-stat-table">
+            <thead><tr><th scope="col">PORADIE</th><th scope="col">HRÁČ</th><th scope="col">ŽK</th></tr></thead>
+            <tbody>
+              <tr><td>1.</td><td><span class="player-stat-player"><img src="img/kluby/klaś-removebg-preview.png" alt="TJ Družstevník Klas">Karol Végh</span></td><td>6</td></tr>
+              <tr><td>2.</td><td><span class="player-stat-player"><img src="img/kluby/vulkan-removebg-preview.png" alt="ŠK Vulkán Ruda">Marcel Danko</span></td><td>5</td></tr>
+              <tr><td>3.</td><td><span class="player-stat-player"><img src="img/kluby/karpaty-removebg-preview.png" alt="SK Karpaty Vlci">Andrej Šimko</span></td><td>5</td></tr>
+              <tr><td>4.</td><td><span class="player-stat-player"><img src="img/kluby/blesk-removebg-preview.png" alt="TJ Dynamo Blesk">Róbert Farkaš</span></td><td>4</td></tr>
+              <tr><td>5.</td><td><span class="player-stat-player"><img src="img/kluby/corgon-removebg-preview.png" alt="AC Nitra Corgoň">Richard Takáč</span></td><td>4</td></tr>
+              <tr><td>6.</td><td><span class="player-stat-player"><img src="img/kluby/orly.png" alt="FC Topoľ Orly">Tibor Vlk</span></td><td>4</td></tr>
+              <tr><td>7.</td><td><span class="player-stat-player"><img src="img/kluby/tatran_lev-removebg-preview.png" alt="FC Tatran Lev">Tomáš Horváth</span></td><td>3</td></tr>
+              <tr><td>8.</td><td><span class="player-stat-player"><img src="img/kluby/horal-removebg-preview.png" alt="ŠK Horal Hrad">Igor Paška</span></td><td>3</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="player-stat-section" aria-labelledby="red-cards-heading">
+        <h2 class="section-heading" id="red-cards-heading">ČERVENÉ KARTY</h2>
+        <div class="player-stat-panel">
+          <table class="player-stat-table">
+            <thead><tr><th scope="col">PORADIE</th><th scope="col">HRÁČ</th><th scope="col">ČK</th></tr></thead>
+            <tbody>
+              <tr><td>1.</td><td><span class="player-stat-player"><img src="img/kluby/vulkan-removebg-preview.png" alt="ŠK Vulkán Ruda">Zdenko Pastorek</span></td><td>2</td></tr>
+              <tr><td>2.</td><td><span class="player-stat-player"><img src="img/kluby/klaś-removebg-preview.png" alt="TJ Družstevník Klas">Karol Végh</span></td><td>1</td></tr>
+              <tr><td>3.</td><td><span class="player-stat-player"><img src="img/kluby/blesk-removebg-preview.png" alt="TJ Dynamo Blesk">Daniel Gajdoš</span></td><td>1</td></tr>
+              <tr><td>4.</td><td><span class="player-stat-player"><img src="img/kluby/orly.png" alt="FC Topoľ Orly">Norbert Fehér</span></td><td>1</td></tr>
+              <tr><td>5.</td><td><span class="player-stat-player"><img src="img/kluby/corgon-removebg-preview.png" alt="AC Nitra Corgoň">Oliver Dudáš</span></td><td>1</td></tr>
+              <tr><td>6.</td><td><span class="player-stat-player"><img src="img/kluby/tatran_lev-removebg-preview.png" alt="FC Tatran Lev">Lukáš Baláž</span></td><td>1</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">7. LIGA <span aria-label="copyright">©</span></p>
+    <button class="footer-contact" type="button" data-demo-link>KONTAKT</button>
+  </footer>
+  <p class="interaction-message" role="status" aria-live="polite"></p>
+</body>
+</html>
