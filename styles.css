@@ -613,6 +613,247 @@ a {
   margin: 48px auto 0;
 }
 
+.contact-layout {
+  width: min(1120px, 100%);
+  margin: 48px auto 0;
+}
+
+.contact-page-heading {
+  margin-bottom: 22px;
+}
+
+.contact-main-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 22px;
+}
+
+.contact-card {
+  min-width: 0;
+  padding: 24px;
+  border: 2px solid rgb(181 18 50 / 22%);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: var(--shadow-panel);
+}
+
+.contact-card-heading {
+  margin: 0 0 16px;
+  color: var(--red);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.contact-organization {
+  margin: 0 0 16px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.contact-details {
+  display: grid;
+  gap: 10px;
+}
+
+.contact-detail {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 11px;
+  background: var(--surface);
+}
+
+.contact-detail-icon {
+  width: 23px;
+  height: 23px;
+  margin-top: 1px;
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.contact-detail h3 {
+  margin: 0 0 5px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.contact-detail p {
+  margin: 3px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.contact-method {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.contact-inline-icon {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.contact-detail a {
+  color: var(--red);
+  text-decoration: none;
+}
+
+.contact-detail a:hover,
+.club-contact-card a:hover {
+  text-decoration: underline;
+}
+
+.contact-form {
+  display: grid;
+  gap: 8px;
+}
+
+.contact-form label {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  width: 100%;
+  min-height: 43px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--page);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+}
+
+.contact-form textarea {
+  min-height: 124px;
+  resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  border-color: var(--red);
+  outline: 2px solid rgb(181 18 50 / 18%);
+}
+
+.contact-submit {
+  min-height: 44px;
+  margin-top: 8px;
+  padding: 10px 16px;
+  border: 1px solid var(--red);
+  border-radius: 10px;
+  background: var(--red);
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+}
+
+.contact-submit:hover {
+  background: #960d28;
+  box-shadow: 0 5px 14px rgb(181 18 50 / 24%);
+  transform: translateY(-1px);
+}
+
+.contact-form-feedback {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border: 1px solid #a7d8b2;
+  border-radius: 10px;
+  background: #e9f7ed;
+  color: #176b2c;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.contact-form-feedback.is-error {
+  border-color: rgb(181 18 50 / 28%);
+  background: #fff0f2;
+  color: var(--red);
+}
+
+.contact-form-note {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.club-contacts-section {
+  margin-top: 34px;
+}
+
+.club-contacts-section > .section-heading {
+  margin-bottom: 12px;
+}
+
+.club-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.club-contact-card {
+  min-width: 0;
+  padding: 16px 13px;
+  border: 1px solid rgb(181 18 50 / 18%);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: var(--shadow-row);
+}
+
+.club-contact-card img {
+  width: 48px;
+  height: 48px;
+  display: block;
+  margin: 0 auto 10px;
+  object-fit: contain;
+}
+
+.club-contact-card h3 {
+  margin: 0 0 5px;
+  color: var(--red);
+  font-size: 13px;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.club-contact-card p {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+.club-contact-card a {
+  display: block;
+  color: var(--text);
+  font-size: 11px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  text-align: center;
+  text-decoration: none;
+}
+
 .results-heading {
   margin-bottom: 22px;
 }
@@ -1723,6 +1964,9 @@ a {
 .footer-contact {
   min-width: 118px;
   min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0 18px;
   border: 2px solid #44474d;
   border-radius: 12px;
@@ -1731,6 +1975,7 @@ a {
   box-shadow: 0 2px 6px rgb(0 0 0 / 16%);
   cursor: pointer;
   transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+  text-decoration: none;
 }
 
 .footer-contact:hover {
@@ -1782,6 +2027,10 @@ a {
   .nav-link {
     min-width: 92px;
     padding: 0 12px;
+  }
+
+  .club-contact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .home-layout {
@@ -2003,6 +2252,24 @@ a {
 
   .results-layout {
     margin-top: 38px;
+  }
+
+  .contact-layout {
+    margin-top: 34px;
+  }
+
+  .contact-main-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .contact-card {
+    padding: 19px 16px;
+    border-radius: 14px;
+  }
+
+  .club-contacts-section {
+    margin-top: 28px;
   }
 
   .results-filter {

@@ -16,6 +16,7 @@ const matchDialog = document.querySelector("#match-dialog");
 const matchDetailRound = document.querySelector("#match-detail-round");
 const matchDetailBody = document.querySelector("#match-detail-body");
 const matchDialogClose = document.querySelector(".match-dialog-close");
+const contactForm = document.querySelector("#contact-form");
 const message = document.querySelector(".interaction-message");
 const favoritesStorageKey = "7liga-favorites";
 const usersStorageKey = "users";
@@ -727,6 +728,37 @@ function setupAuthentication() {
   }
 }
 
+function setupContactForm() {
+  if (!contactForm) {
+    return;
+  }
+
+  const feedback = document.querySelector("#contact-form-feedback");
+  contactForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const name = contactForm.elements.namedItem("name").value.trim();
+    const email = contactForm.elements.namedItem("email").value.trim();
+    const body = contactForm.elements.namedItem("message").value.trim();
+
+    feedback.classList.remove("is-error");
+    if (!name || !email || !body) {
+      feedback.textContent = "Vyplňte prosím všetky povinné polia.";
+      feedback.hidden = false;
+      feedback.classList.add("is-error");
+      return;
+    }
+
+    if (!contactForm.checkValidity()) {
+      contactForm.reportValidity();
+      return;
+    }
+
+    contactForm.reset();
+    feedback.textContent = "Ďakujeme! Vaša správa bola úspešne odoslaná. Ozveme sa vám čo najskôr.";
+    feedback.hidden = false;
+  });
+}
+
 function setFavoriteButtonState(button, isFavorite) {
   const label = button.dataset.favoriteType === "club" ? "klub" : "hráča";
   button.setAttribute("aria-pressed", String(isFavorite));
@@ -1259,6 +1291,7 @@ updateAccountNavigation();
 renderFavorites();
 renderProfile();
 setupAuthentication();
+setupContactForm();
 syncFavoriteButtons();
 renderPlayerProfile().catch((error) => {
   console.error(error);
@@ -1391,8 +1424,6 @@ document.querySelectorAll("[data-demo-link]").forEach((link) => {
 
     if (link.classList.contains("photo-reports-button")) {
       showMessage("Fotoreporty zatiaľ nie sú dostupné.");
-    } else if (link.classList.contains("footer-contact")) {
-      showMessage("Kontaktné údaje zatiaľ nie sú dostupné.");
     } else if (link.classList.contains("article-link")) {
       showMessage("Detail článku zatiaľ nie je dostupný.");
     } else if (link.textContent.trim() === "HRÁČI") {
