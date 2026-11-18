@@ -8,8 +8,8 @@ Implementované sú responzívna úvodná obrazovka, klientská demo registráci
 
 ## Dostupné správanie
 
-- Lupa otvorí vyhľadávacie pole v hlavičke, ktoré sa rozšíri doľava a zalomí odkazy namiesto ich prekrytia. Vyhľadávanie podporuje typované záznamy článkov, hráčov a klubov; aktuálne sú v indexe len články.
-- Vyhľadávanie normalizuje diakritiku a zatvára sa klávesom Escape alebo kliknutím mimo lišty.
+- Lupa otvorí živé vyhľadávanie v hlavičke, ktoré sa rozšíri doľava a zalomí odkazy namiesto ich prekrytia. Našepkávače prehľadávajú názvy klubov, regióny, prezývky, všetkých hráčov zo súpisiek a články.
+- Vyhľadávanie ignoruje diakritiku aj veľkosť písmen. Výsledky obsahujú logo alebo miniatúru, podnadpis a odkaz na príslušnú podstránku; kliknutie mimo poľa alebo kláves Escape zoznam zatvorí.
 - Prihlásenie alebo registrácia cez navigáciu otvorí `prihlasenie.html`; formulár podporuje prihlásenie e-mailom alebo prezývkou a registráciu s prezývkou, e-mailom a heslom. Testovací účet: `fanusik@liga.sk`, heslo `123456`.
 - Stav prihlásenia sa ukladá do `localStorage` a premieta sa do navigácie na všetkých stránkach. Prihlásený používateľ otvorí `profil.html`, kde môže skontrolovať svoje údaje a odhlásiť sa.
 - Obľúbené kluby a hráči sa ukladajú priamo k príslušnému používateľovi. Srdiečko vyžaduje prihlásenie; staršie uložené obľúbené sa pri prvom prihlásení prenesú do účtu.
@@ -40,7 +40,7 @@ Stránka používa čisté HTML, CSS a JavaScript bez frameworkov a externých k
 | `hrac.html` | Profil hráča s profilovou fotografiou a jeho relevantnými štatistikami |
 | `vysledky.html` | Výsledky zápasov 14 kôl s filtrom, detailmi zápasov a srdiečkami klubov |
 | `prihlasenie.html` | Klientský formulár registrácie a prihlásenia |
-| `profil.html` | Používateľské údaje a obľúbené kluby a hráči |
+| `profil.html` | Používateľské údaje a odhlásenie |
 | `clanky.html` | Prehľad článkov, filtre klubu a sezóny, tlačidlo Fotoreporty |
 | `oblubene.html` | Podstránka obľúbených hráčov a klubov |
 | `clanok-derby.html` | Detail článku o miestnom derby |
@@ -61,6 +61,7 @@ V editore VS Code možno otvoriť `index.html` cez **Show Preview** alebo rozš�
 
 ## Posledná úprava
 
+- 2026-11-18: Rozšírené živé vyhľadávanie o kluby, regióny, prezývky, všetky súpisky a články; výsledky sú bez diakritiky a s klubovými logami.
 - 2026-11-18: Pridaný klikateľný detail zápasu s udalosťami a štatistikami; kluby v zápasoch možno pridávať medzi obľúbené a detail používa jeden posuvník.
 - 2026-11-18: Pridaná klientská registrácia, prihlásenie a používateľský profil; obľúbené sa ukladajú k účtu a menu zobrazuje aktuálny stav prihlásenia.
 - 2026-11-18: Pridaná podstránka `vysledky.html` s výsledkami 14 kôl a okamžitým filtrom podľa kola; navigácia VÝSLEDKY vedie na túto stránku.

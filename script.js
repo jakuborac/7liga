@@ -20,6 +20,10 @@ const message = document.querySelector(".interaction-message");
 const favoritesStorageKey = "7liga-favorites";
 const usersStorageKey = "users";
 const currentUserStorageKey = "currentUser";
+const scriptUrl = document.currentScript?.src
+  || document.querySelector('script[src$="script.js"]')?.src
+  || new URL("script.js", document.baseURI).href;
+const siteRoot = new URL(".", scriptUrl);
 const typeLabels = {
   article: "Článok",
   player: "Hráč",
@@ -31,6 +35,19 @@ const matchTeams = {
     name: "FC Tatran Lev",
     logo: "img/kluby/tatran_lev-removebg-preview.png",
     href: "kluby/tatran-lev.html",
+    region: "Vysoké Tatry",
+    nickname: "Tatranskí levy",
+    roster: [
+      { number: "1", name: "Marek Kováč", position: "Brankár" },
+      { number: "4", name: "Jakub Varga", position: "Obranca" },
+      { number: "5", name: "Tomáš Horváth", position: "Obranca" },
+      { number: "14", name: "Lukáš Baláž", position: "Obranca" },
+      { number: "8", name: "Martin Tóth", position: "Stredopoliar" },
+      { number: "10", name: "Filip Nagy", position: "Stredopoliar" },
+      { number: "17", name: "Patrik Molnár", position: "Stredopoliar" },
+      { number: "9", name: "Dávid Szabó", position: "Útočník" },
+      { number: "11", name: "Samuel Polák", position: "Útočník" },
+    ],
     scorers: ["Dávid Szabó", "Samuel Polák", "Filip Nagy", "Martin Tóth", "Patrik Molnár"],
     cardPlayers: ["Tomáš Horváth", "Jakub Varga", "Lukáš Baláž"],
   },
@@ -38,6 +55,19 @@ const matchTeams = {
     name: "SK Karpaty Vlci",
     logo: "img/kluby/karpaty-removebg-preview.png",
     href: "kluby/karpaty-vlci.html",
+    region: "Karpatská oblasť",
+    nickname: "Vlci z Karpát",
+    roster: [
+      { number: "1", name: "Michal Kučera", position: "Brankár" },
+      { number: "2", name: "Peter Hudák", position: "Obranca" },
+      { number: "6", name: "Andrej Šimko", position: "Obranca" },
+      { number: "15", name: "Matúš Kollár", position: "Obranca" },
+      { number: "7", name: "Adam Gál", position: "Stredopoliar" },
+      { number: "10", name: "Dominik Oravec", position: "Stredopoliar" },
+      { number: "20", name: "Kristián Benko", position: "Stredopoliar" },
+      { number: "9", name: "Juraj Blaho", position: "Útočník" },
+      { number: "19", name: "Erik Zeman", position: "Útočník" },
+    ],
     scorers: ["Juraj Blaho", "Erik Zeman", "Dominik Oravec", "Adam Gál", "Kristián Benko"],
     cardPlayers: ["Andrej Šimko", "Matúš Kollár", "Peter Hudák"],
   },
@@ -45,6 +75,19 @@ const matchTeams = {
     name: "AC Nitra Corgoň",
     logo: "img/kluby/corgon-removebg-preview.png",
     href: "kluby/nitra-corgon.html",
+    region: "Nitra",
+    nickname: "Corgoňovci",
+    roster: [
+      { number: "12", name: "Roman Kráľ", position: "Brankár" },
+      { number: "3", name: "Štefan Bartoš", position: "Obranca" },
+      { number: "4", name: "Oliver Dudáš", position: "Obranca" },
+      { number: "16", name: "Richard Takáč", position: "Obranca" },
+      { number: "8", name: "Matej Urban", position: "Stredopoliar" },
+      { number: "10", name: "Boris Hruška", position: "Stredopoliar" },
+      { number: "22", name: "Alexej Černý", position: "Stredopoliar" },
+      { number: "9", name: "Viktor Valent", position: "Útočník" },
+      { number: "18", name: "Denis Sýkora", position: "Útočník" },
+    ],
     scorers: ["Viktor Valent", "Denis Sýkora", "Boris Hruška", "Matej Urban", "Alexej Černý"],
     cardPlayers: ["Štefan Bartoš", "Richard Takáč", "Oliver Dudáš"],
   },
@@ -52,6 +95,19 @@ const matchTeams = {
     name: "TJ Dynamo Blesk",
     logo: "img/kluby/blesk-removebg-preview.png",
     href: "kluby/dynamo-blesk.html",
+    region: "Stredné Slovensko",
+    nickname: "Blesky",
+    roster: [
+      { number: "1", name: "Branislav Majer", position: "Brankár" },
+      { number: "5", name: "Ján Kmeť", position: "Obranca" },
+      { number: "13", name: "Róbert Farkaš", position: "Obranca" },
+      { number: "21", name: "Daniel Gajdoš", position: "Obranca" },
+      { number: "6", name: "Ondrej Lacko", position: "Stredopoliar" },
+      { number: "8", name: "Sebastián Pál", position: "Stredopoliar" },
+      { number: "10", name: "Miroslav Kováčik", position: "Stredopoliar" },
+      { number: "9", name: "Adrián Chovan", position: "Útočník" },
+      { number: "14", name: "Nicolas Mlynár", position: "Útočník" },
+    ],
     scorers: ["Adrián Chovan", "Nicolas Mlynár", "Miroslav Kováčik", "Sebastián Pál", "Ondrej Lacko"],
     cardPlayers: ["Róbert Farkaš", "Daniel Gajdoš", "Ján Kmeť"],
   },
@@ -59,6 +115,19 @@ const matchTeams = {
     name: "FC Topoľ Orly",
     logo: "img/kluby/orly.png",
     href: "kluby/topol-orly.html",
+    region: "Podunajsko",
+    nickname: "Orly z Topoľa",
+    roster: [
+      { number: "30", name: "Pavol Sloboda", position: "Brankár" },
+      { number: "2", name: "Norbert Fehér", position: "Obranca" },
+      { number: "4", name: "Tibor Vlk", position: "Obranca" },
+      { number: "15", name: "Kevin Meszároš", position: "Obranca" },
+      { number: "7", name: "Damián Holub", position: "Stredopoliar" },
+      { number: "10", name: "Radoslav Juhász", position: "Stredopoliar" },
+      { number: "17", name: "Tobias Straka", position: "Stredopoliar" },
+      { number: "9", name: "Nikolas Švec", position: "Útočník" },
+      { number: "11", name: "Maroš Bílek", position: "Útočník" },
+    ],
     scorers: ["Nikolas Švec", "Maroš Bílek", "Radoslav Juhász", "Damián Holub", "Tobias Straka"],
     cardPlayers: ["Tibor Vlk", "Norbert Fehér", "Kevin Meszároš"],
   },
@@ -66,6 +135,19 @@ const matchTeams = {
     name: "ŠK Horal Hrad",
     logo: "img/kluby/horal-removebg-preview.png",
     href: "kluby/horal-hrad.html",
+    region: "Považie / Orava",
+    nickname: "Hradní páni",
+    roster: [
+      { number: "1", name: "Vladimír Baran", position: "Brankár" },
+      { number: "3", name: "Stanislav Kováč", position: "Obranca" },
+      { number: "5", name: "Igor Paška", position: "Obranca" },
+      { number: "12", name: "Ľuboš Dubovský", position: "Obranca" },
+      { number: "8", name: "Marián Hlinka", position: "Stredopoliar" },
+      { number: "10", name: "František Moravčík", position: "Stredopoliar" },
+      { number: "16", name: "Gabriel Žák", position: "Stredopoliar" },
+      { number: "9", name: "Milan Štefánik", position: "Útočník" },
+      { number: "23", name: "René Janík", position: "Útočník" },
+    ],
     scorers: ["Milan Štefánik", "René Janík", "František Moravčík", "Marián Hlinka", "Gabriel Žák"],
     cardPlayers: ["Igor Paška", "Stanislav Kováč", "Ľuboš Dubovský"],
   },
@@ -73,6 +155,19 @@ const matchTeams = {
     name: "ŠK Vulkán Ruda",
     logo: "img/kluby/vulkan-removebg-preview.png",
     href: "kluby/vulkan-ruda.html",
+    region: "Banská Štiavnica / Kremnica",
+    nickname: "Baníci / Sopky",
+    roster: [
+      { number: "1", name: "Dušan Rusnák", position: "Brankár" },
+      { number: "4", name: "Jaroslav Kováč", position: "Obranca" },
+      { number: "6", name: "Marcel Danko", position: "Obranca" },
+      { number: "19", name: "Kamil Sedlák", position: "Obranca" },
+      { number: "8", name: "Zdenko Pastorek", position: "Stredopoliar" },
+      { number: "10", name: "Anton Nemec", position: "Stredopoliar" },
+      { number: "15", name: "Roland Kubík", position: "Stredopoliar" },
+      { number: "9", name: "Vincent Hrubý", position: "Útočník" },
+      { number: "21", name: "Leoš Malý", position: "Útočník" },
+    ],
     scorers: ["Vincent Hrubý", "Leoš Malý", "Zdenko Pastorek", "Anton Nemec", "Roland Kubík"],
     cardPlayers: ["Marcel Danko", "Kamil Sedlák", "Jaroslav Kováč"],
   },
@@ -80,6 +175,19 @@ const matchTeams = {
     name: "TJ Družstevník Klas",
     logo: "img/kluby/klaś-removebg-preview.png",
     href: "kluby/druzstevnik-klas.html",
+    region: "Žitný ostrov",
+    nickname: "Klasári",
+    roster: [
+      { number: "1", name: "Jozef Kováč", position: "Brankár" },
+      { number: "2", name: "Ladislav Papp", position: "Obranca" },
+      { number: "5", name: "Karol Végh", position: "Obranca" },
+      { number: "14", name: "Imrich Szilágyi", position: "Obranca" },
+      { number: "7", name: "Attila Kiss", position: "Stredopoliar" },
+      { number: "10", name: "Zoltán Németh", position: "Stredopoliar" },
+      { number: "18", name: "Csaba Varga", position: "Stredopoliar" },
+      { number: "9", name: "Gábor Molnár", position: "Útočník" },
+      { number: "11", name: "Tamás Horváth", position: "Útočník" },
+    ],
     scorers: ["Gábor Molnár", "Tamás Horváth", "Csaba Varga", "Attila Kiss", "Zoltán Németh"],
     cardPlayers: ["Karol Végh", "Ladislav Papp", "Imrich Szilágyi"],
   },
@@ -127,18 +235,7 @@ const round14MatchDetails = {
   },
 };
 let matchesData = [];
-const searchRecords = [...document.querySelectorAll("[data-search-item]")]
-  .map((element) => {
-    const title = element.dataset.searchTitle || element.querySelector("h2, h3")?.textContent.trim() || "";
-    const type = element.dataset.searchType || "content";
-    const href = element.dataset.searchHref || (element.id ? `#${element.id}` : element.querySelector("a[href]")?.getAttribute("href")) || "#";
-    const terms = [title, element.dataset.searchDescription, element.dataset.searchKeywords]
-      .filter(Boolean)
-      .join(" ");
-
-    return { title, type, href, searchText: normalizeText(terms) };
-  })
-  .filter((record) => record.title);
+let searchRecords = [];
 let messageTimer;
 
 function normalizeText(value) {
@@ -146,6 +243,87 @@ function normalizeText(value) {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLocaleLowerCase("sk");
+}
+
+function getSiteHref(value, base = siteRoot) {
+  if (!value) {
+    return null;
+  }
+
+  try {
+    const url = new URL(value, base);
+    return url.origin === siteRoot.origin ? url.href : null;
+  } catch {
+    return null;
+  }
+}
+
+const searchArticles = [
+  {
+    title: "Ako dopadlo miestne derby?",
+    href: "clanok-derby.html",
+    image: "img/fotky/zapas1.jpg",
+    keywords: "derby zápas miestny",
+  },
+  {
+    title: "Nové posily v lige",
+    href: "clanok-posily.html",
+    image: "img/fotky/bitka.jpg",
+    keywords: "prestupy noví hráči kluby",
+  },
+  {
+    title: "Najlepšie občerstvenie v našej lige",
+    href: "clanok-obcerstvenie.html",
+    image: "img/fotky/bufet1.jpg",
+    keywords: "občerstvenie jedlo nápoje bufet",
+  },
+  {
+    title: "Pred zápasom rozhoduje aj dobrá príprava",
+    href: "clanok-priprava.html",
+    image: "img/fotky/bitka.jpg",
+    keywords: "tréning príprava tím zápas",
+  },
+  {
+    title: "Fanúšikovia tvoria atmosféru na ihrisku",
+    href: "clanok-fanusikovia.html",
+    image: "img/fotky/zapas1.jpg",
+    keywords: "fanúšikovia atmosféra diváci ihrisko",
+  },
+];
+
+function buildSearchIndex() {
+  const records = Object.values(matchTeams).flatMap((team) => {
+    const teamHref = getSiteHref(team.href);
+    const logo = getSiteHref(team.logo);
+    const clubRecord = {
+      title: team.name,
+      type: "club",
+      subtitle: `${typeLabels.club} • ${team.region}`,
+      href: teamHref,
+      image: logo,
+      searchText: normalizeText([team.name, team.region, team.nickname].join(" ")),
+    };
+    const playerRecords = team.roster.map((player) => ({
+      title: player.name,
+      type: "player",
+      subtitle: `${typeLabels.player} • ${team.name} · ${player.position}`,
+      href: getSiteHref(`${team.href}#player-${player.number}`),
+      image: logo,
+      searchText: normalizeText([player.name, team.name, player.position, player.number].join(" ")),
+    }));
+
+    return [clubRecord, ...playerRecords];
+  });
+  const articleRecords = searchArticles.map((article) => ({
+    title: article.title,
+    type: "article",
+    subtitle: typeLabels.article,
+    href: getSiteHref(article.href),
+    image: getSiteHref(article.image),
+    searchText: normalizeText([article.title, article.keywords].join(" ")),
+  }));
+
+  searchRecords = [...records, ...articleRecords].filter((record) => record.href);
 }
 
 function getLocalHref(value) {
@@ -1075,6 +1253,7 @@ function filterMatchRounds() {
 addRosterFavoriteButtons();
 linkStatisticPlayers();
 initializeMatchDetails();
+buildSearchIndex();
 ensureTestAccount();
 updateAccountNavigation();
 renderFavorites();
@@ -1108,6 +1287,7 @@ function showSearchMessage(text) {
 function renderSearchResults(value) {
   const terms = normalizeText(value).trim().split(/\s+/).filter(Boolean);
   searchResults.replaceChildren();
+  searchResults.hidden = terms.length === 0;
   searchHint.hidden = terms.length > 0;
 
   if (!terms.length) {
@@ -1115,27 +1295,46 @@ function renderSearchResults(value) {
   }
 
   const matches = searchRecords
-    .filter((record) => terms.every((term) => record.searchText.includes(term)))
-    .slice(0, 8);
+    .filter((record) => terms.every((term) => record.searchText.includes(term)));
 
   if (!matches.length) {
-    showSearchMessage("Nenašli sa žiadne výsledky.");
+    showSearchMessage("Nenašli sa žiadne výsledky");
     return;
   }
 
   matches.forEach((record) => {
     const item = document.createElement("li");
     const link = document.createElement("a");
-    const type = document.createElement("span");
+    const content = document.createElement("span");
     const title = document.createElement("span");
+    const subtitle = document.createElement("span");
 
     item.className = "search-result";
     link.className = "search-result-link";
     link.href = record.href;
-    type.className = "search-result-type";
-    type.textContent = typeLabels[record.type] || "Obsah";
+    content.className = "search-result-content";
+    title.className = "search-result-title";
     title.textContent = record.title;
-    link.append(type, title);
+    subtitle.className = "search-result-type";
+    subtitle.textContent = record.subtitle || typeLabels[record.type] || "Obsah";
+    content.append(title, subtitle);
+
+    if (record.image) {
+      const image = document.createElement("img");
+      image.className = "search-result-image";
+      image.src = record.image;
+      image.alt = "";
+      image.loading = "lazy";
+      link.append(image);
+    } else {
+      const icon = document.createElement("span");
+      icon.className = "search-result-icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.textContent = record.type === "article" ? "Č" : record.type === "club" ? "K" : "H";
+      link.append(icon);
+    }
+
+    link.append(content);
     link.addEventListener("click", () => closeSearch());
     item.append(link);
     searchResults.append(item);
