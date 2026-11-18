@@ -18,6 +18,8 @@ const matchDetailBody = document.querySelector("#match-detail-body");
 const matchDialogClose = document.querySelector(".match-dialog-close");
 const message = document.querySelector(".interaction-message");
 const favoritesStorageKey = "7liga-favorites";
+const usersStorageKey = "users";
+const currentUserStorageKey = "currentUser";
 const typeLabels = {
   article: "Článok",
   player: "Hráč",
@@ -155,30 +157,236 @@ function getLocalHref(value) {
   }
 }
 
-function readFavorites() {
+function readUsers() {
   try {
-    const favorites = JSON.parse(localStorage.getItem(favoritesStorageKey) || "[]");
-    return Array.isArray(favorites) ? favorites : [];
-  } catch {
+    const users = JSON.parse(localStorage.getItem(usersStorageKey) || "[]");
+    if (!Array.isArray(users)) {
+      showMessage("Údaje používateľov sa nepodarilo načítať.");
+      return [];
+    }
+
+    return users.filter((user) =>
+      user &&
+      typeof user.nickname === "string" &&
+      typeof user.email === "string" &&
+      typeof user.password === "string",
+    );
+  } catch (error) {
+    console.error("Údaje používateľov sa nepodarilo načítať.", error);
+    showMessage("Údaje používateľov sa nepodarilo načítať.");
     return [];
   }
 }
 
-function writeFavorites(favorites) {
+function writeUsers(users) {
   try {
-    localStorage.setItem(favoritesStorageKey, JSON.stringify(favorites));
+    localStorage.setItem(usersStorageKey, JSON.stringify(users));
     return true;
-  } catch {
-    showMessage("Obľúbené sa nepodarilo uložiť.");
+  } catch (error) {
+    console.error("Údaje používateľov sa nepodarilo uložiť.", error);
+    showMessage("Údaje používateľov sa nepodarilo uložiť.");
     return false;
   }
 }
 
-function renderFavorites() {
-  if (!favoritesList || !favoritesEmpty) {
+function getCurrentUser() {
+  try {
+    const storedUser = JSON.parse(localStorage.getItem(currentUserStorageKey) || "null");
+    if (!storedUser || typeof storedUser.email !== "string") {
+      return null;
+    }
+
+    return readUsers().find((user) => user.email.toLowerCase() === storedUser.email.toLowerCase()) || null;
+  } catch (error) {
+    console.error("Aktívneho používateľa sa nepodarilo načítať.", error);
+    showMessage("Aktívneho používateľa sa nepodarilo načítať.");
+    return null;
+  }
+}
+
+function setCurrentUser(user) {
+  try {
+    localStorage.setItem(currentUserStorageKey, JSON.stringify({
+      email: user.email,
+      nickname: user.nickname,
+    }));
+    return true;
+  } catch (error) {
+    console.error("Prihlásenie sa nepodarilo uložiť.", error);
+    showMessage("Prihlásenie sa nepodarilo uložiť.");
+    return false;
+  }
+}
+
+function ensureTestAccount() {
+  const users = readUsers();
+  const testEmail = "fanusik@liga.sk";
+
+  if (users.some((user) => user.email.toLowerCase() === testEmail)) {
     return;
   }
 
+  users.push({
+    nickname: "Futbalový Fanúšik",
+    email: testEmail,
+    password: "123456",
+    favorites: [],
+  });
+  writeUsers(users);
+}
+
+function migrateLegacyFavorites(user) {
+  let legacyFavorites;
+
+  try {
+    const storedFavorites = localStorage.getItem(favoritesStorageKey);
+    if (!storedFavorites) {
+      return true;
+    }
+
+    legacyFavorites = JSON.parse(storedFavorites);
+    if (!Array.isArray(legacyFavorites)) {
+      throw new TypeError("Obľúbené položky nemajú platný formát.");
+    }
+  } catch (error) {
+    console.error("Staršie obľúbené položky sa nepodarilo načítať.", error);
+    showMessage("Staršie obľúbené položky sa nepodarilo preniesť.");
+    return false;
+  }
+
+  const users = readUsers();
+  const account = users.find((savedUser) => savedUser.email.toLowerCase() === user.email.toLowerCase());
+  if (!account) {
+    showMessage("Používateľský účet sa nepodarilo nájsť.");
+    return false;
+  }
+
+  const favorites = Array.isArray(account.favorites) ? account.favorites : [];
+  const combined = [...favorites];
+  legacyFavorites.forEach((favorite) => {
+    if (
+      favorite &&
+      (favorite.type === "club" || favorite.type === "player") &&
+      typeof favorite.title === "string" &&
+      typeof favorite.href === "string" &&
+      !combined.some((saved) =>
+        saved && saved.type === favorite.type && getLocalHref(saved.href) === getLocalHref(favorite.href),
+      )
+    ) {
+      combined.push(favorite);
+    }
+  });
+  account.favorites = combined;
+
+  if (!writeUsers(users)) {
+    return false;
+  }
+
+  try {
+    localStorage.removeItem(favoritesStorageKey);
+    return true;
+  } catch (error) {
+    console.error("Staršie obľúbené položky sa nepodarilo odstrániť.", error);
+    showMessage("Obľúbené položky sa preniesli, ale staré údaje sa nepodarilo odstrániť.");
+    return false;
+  }
+}
+
+function readFavorites() {
+  const user = getCurrentUser();
+  return user && Array.isArray(user.favorites) ? user.favorites : [];
+}
+
+function writeFavorites(favorites) {
+  const currentUser = getCurrentUser();
+  if (!currentUser) {
+    showMessage("Pre ukladanie obľúbených klubov a hráčov sa musíš najprv prihlásiť.");
+    return false;
+  }
+
+  const users = readUsers();
+  const account = users.find((user) => user.email.toLowerCase() === currentUser.email.toLowerCase());
+  if (!account) {
+    showMessage("Používateľský účet sa nepodarilo nájsť.");
+    return false;
+  }
+
+  account.favorites = favorites;
+  return writeUsers(users);
+}
+
+function createFavoriteItem(favorite) {
+  const item = document.createElement("li");
+  const entry = document.createElement("div");
+  const type = document.createElement("span");
+  const logo = document.createElement("img");
+  const link = document.createElement("a");
+  const content = document.createElement("div");
+  const removeButton = document.createElement("button");
+  const club = favorite.type === "club"
+    ? Object.values(matchTeams).find((team) => team.name === favorite.title)
+    : Object.values(matchTeams).find((team) => team.name === favorite.club);
+
+  item.className = "favorite-item";
+  entry.className = "favorite-entry";
+  type.className = "favorite-entry-type";
+  type.textContent = favorite.type === "club" ? "Klub" : "Hráč";
+  logo.className = "favorite-entry-logo";
+  logo.alt = club ? `Logo klubu ${club.name}` : "";
+  logo.hidden = !club;
+  if (club) {
+    logo.src = club.logo;
+  }
+  link.className = "favorite-entry-link";
+  link.href = getLocalHref(favorite.href);
+  link.textContent = favorite.title.trim();
+  content.className = "favorite-entry-content";
+  content.append(link);
+
+  if (favorite.type === "player") {
+    const details = [
+      favorite.club,
+      favorite.number ? `#${favorite.number}` : "",
+      favorite.position,
+    ].filter((detail) => typeof detail === "string" && detail.trim());
+
+    if (details.length) {
+      const detailLine = document.createElement("span");
+      detailLine.className = "favorite-entry-details";
+      detailLine.textContent = details.join(" · ");
+      content.append(detailLine);
+    }
+  }
+
+  removeButton.className = "favorite-remove";
+  removeButton.type = "button";
+  removeButton.textContent = "Odstrániť";
+  removeButton.addEventListener("click", () => {
+    const remainingFavorites = readFavorites().filter((saved) =>
+      !saved || saved.type !== favorite.type || saved.href !== favorite.href,
+    );
+    if (writeFavorites(remainingFavorites)) {
+      renderFavorites();
+    }
+  });
+
+  entry.append(type, logo, content);
+  item.append(entry, removeButton);
+  return item;
+}
+
+function renderFavoriteList(list, empty, favorites) {
+  if (!list || !empty) {
+    return;
+  }
+
+  list.replaceChildren(...favorites.map(createFavoriteItem));
+  empty.hidden = favorites.length > 0;
+  list.hidden = favorites.length === 0;
+}
+
+function renderFavorites() {
+  const signedIn = Boolean(getCurrentUser());
   const favorites = readFavorites().filter((favorite) =>
     favorite &&
     (favorite.type === "club" || favorite.type === "player") &&
@@ -187,59 +395,171 @@ function renderFavorites() {
     getLocalHref(favorite.href),
   );
 
-  favoritesList.replaceChildren();
-  favoritesEmpty.hidden = favorites.length > 0;
-  favoritesList.hidden = favorites.length === 0;
+  renderFavoriteList(favoritesList, favoritesEmpty, favorites);
+  if (favoritesEmpty) {
+    favoritesEmpty.textContent = signedIn
+      ? "Zatiaľ tu nemáš žiadne obľúbené kluby ani hráčov."
+      : "Prihlás sa, aby si si mohol ukladať obľúbené kluby a hráčov.";
+  }
+  renderFavoriteList(
+    document.querySelector("#profile-clubs-list"),
+    document.querySelector("#profile-clubs-empty"),
+    favorites.filter((favorite) => favorite.type === "club"),
+  );
+  renderFavoriteList(
+    document.querySelector("#profile-players-list"),
+    document.querySelector("#profile-players-empty"),
+    favorites.filter((favorite) => favorite.type === "player"),
+  );
+}
 
-  favorites.forEach((favorite) => {
-    const item = document.createElement("li");
-    const entry = document.createElement("div");
-    const type = document.createElement("span");
-    const link = document.createElement("a");
-    const content = document.createElement("div");
-    const removeButton = document.createElement("button");
+function updateAccountNavigation() {
+  const user = getCurrentUser();
+  const relativePath = window.location.pathname.includes("/kluby/") ? "../" : "";
 
-    item.className = "favorite-item";
-    entry.className = "favorite-entry";
-    type.className = "favorite-entry-type";
-    type.textContent = favorite.type === "club" ? "Klub" : "Hráč";
-    link.className = "favorite-entry-link";
-    link.href = getLocalHref(favorite.href);
-    link.textContent = favorite.title.trim();
-    content.className = "favorite-entry-content";
-    content.append(link);
+  document.querySelectorAll("[data-auth-link]").forEach((link) => {
+    link.href = `${relativePath}${user ? "profil.html" : "prihlasenie.html"}`;
+    link.textContent = user ? "PROFIL" : "PRIHLÁSIŤ SA";
+    link.setAttribute("aria-label", user ? `Profil používateľa ${user.nickname}` : "Prihlásiť sa");
+  });
+}
 
-    if (favorite.type === "player") {
-      const details = [
-        favorite.club,
-        favorite.number ? `#${favorite.number}` : "",
-        favorite.position,
-      ].filter((detail) => typeof detail === "string" && detail.trim());
+function renderProfile() {
+  const user = getCurrentUser();
+  const accountSection = document.querySelector("#profile-account");
+  const signInNotice = document.querySelector("#profile-sign-in-notice");
 
-      if (details.length) {
-        const detailLine = document.createElement("span");
-        detailLine.className = "favorite-entry-details";
-        detailLine.textContent = details.join(" · ");
-        content.append(detailLine);
-      }
-    }
+  if (!accountSection || !signInNotice) {
+    return;
+  }
 
-    removeButton.className = "favorite-remove";
-    removeButton.type = "button";
-    removeButton.textContent = "Odstrániť";
-    removeButton.addEventListener("click", () => {
-      const remainingFavorites = readFavorites().filter((saved) =>
-        saved.type !== favorite.type || saved.href !== favorite.href,
-      );
-      writeFavorites(remainingFavorites);
-      renderFavorites();
+  accountSection.hidden = !user;
+  signInNotice.hidden = Boolean(user);
+
+  if (user) {
+    document.querySelector("#profile-nickname").textContent = user.nickname;
+    document.querySelector("#profile-email").textContent = user.email;
+  }
+}
+
+function setupAuthentication() {
+  const loginForm = document.querySelector("#login-form");
+  const registerForm = document.querySelector("#register-form");
+  const authHeading = document.querySelector("#auth-heading");
+  const authFeedback = document.querySelector("#auth-feedback");
+  const modeButtons = [...document.querySelectorAll("[data-auth-mode]")];
+
+  if (loginForm && registerForm && authHeading && authFeedback) {
+    const setMode = (mode) => {
+      const isLogin = mode === "login";
+      loginForm.hidden = !isLogin;
+      registerForm.hidden = isLogin;
+      authHeading.textContent = isLogin ? "PRIHLÁSENIE" : "REGISTRÁCIA";
+      authFeedback.textContent = "";
+      authFeedback.hidden = true;
+      modeButtons.forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.authMode === mode));
+      });
+    };
+
+    modeButtons.forEach((button) => {
+      button.addEventListener("click", () => setMode(button.dataset.authMode));
     });
 
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const identifier = loginForm.querySelector("[name='identifier']").value.trim();
+      const password = loginForm.querySelector("[name='password']").value;
 
-    entry.append(type, content);
-    item.append(entry, removeButton);
-    favoritesList.append(item);
-  });
+      if (!identifier || !password) {
+        authFeedback.textContent = "Vyplň prezývku alebo e-mail a heslo.";
+        authFeedback.hidden = false;
+        return;
+      }
+
+      const user = readUsers().find((savedUser) =>
+        normalizeText(savedUser.email) === normalizeText(identifier) ||
+        normalizeText(savedUser.nickname) === normalizeText(identifier),
+      );
+
+      if (!user || user.password !== password) {
+        authFeedback.textContent = "Nesprávna prezývka, e-mail alebo heslo.";
+        authFeedback.hidden = false;
+        return;
+      }
+
+      if (!migrateLegacyFavorites(user) || !setCurrentUser(user)) {
+        authFeedback.textContent = "Prihlásenie sa nepodarilo uložiť. Skús to znova.";
+        authFeedback.hidden = false;
+        return;
+      }
+
+      window.location.href = "profil.html";
+    });
+
+    registerForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const nickname = registerForm.querySelector("[name='nickname']").value.trim();
+      const email = registerForm.querySelector("[name='email']").value.trim().toLowerCase();
+      const password = registerForm.querySelector("[name='password']").value;
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!nickname || !email || !password) {
+        authFeedback.textContent = "Vyplň prezývku, e-mail aj heslo.";
+        authFeedback.hidden = false;
+        return;
+      }
+
+      if (!emailPattern.test(email)) {
+        authFeedback.textContent = "Zadaj platnú e-mailovú adresu.";
+        authFeedback.hidden = false;
+        return;
+      }
+
+      if (password.length < 6) {
+        authFeedback.textContent = "Heslo musí mať aspoň 6 znakov.";
+        authFeedback.hidden = false;
+        return;
+      }
+
+      const users = readUsers();
+      if (users.some((user) => user.email.toLowerCase() === email)) {
+        authFeedback.textContent = "Účet s týmto e-mailom už existuje.";
+        authFeedback.hidden = false;
+        return;
+      }
+
+      if (users.some((user) => normalizeText(user.nickname) === normalizeText(nickname))) {
+        authFeedback.textContent = "Táto prezývka sa už používa.";
+        authFeedback.hidden = false;
+        return;
+      }
+
+      const user = { nickname, email, password, favorites: [] };
+      if (!writeUsers([...users, user]) || !migrateLegacyFavorites(user) || !setCurrentUser(user)) {
+        authFeedback.textContent = "Registráciu sa nepodarilo dokončiť. Skús to znova.";
+        authFeedback.hidden = false;
+        return;
+      }
+
+      window.location.href = "profil.html";
+    });
+
+    setMode("login");
+  }
+
+  const logoutButton = document.querySelector("#profile-logout");
+  if (logoutButton) {
+    logoutButton.addEventListener("click", () => {
+      try {
+        localStorage.removeItem(currentUserStorageKey);
+        window.location.href = "index.html";
+      } catch (error) {
+        console.error("Odhlásenie sa nepodarilo.", error);
+        showMessage("Odhlásenie sa nepodarilo.");
+      }
+    });
+  }
 }
 
 function setFavoriteButtonState(button, isFavorite) {
@@ -768,7 +1088,11 @@ function filterMatchRounds() {
 addRosterFavoriteButtons();
 linkStatisticPlayers();
 initializeMatchDetails();
+ensureTestAccount();
+updateAccountNavigation();
 renderFavorites();
+renderProfile();
+setupAuthentication();
 syncFavoriteButtons();
 renderPlayerProfile().catch((error) => {
   console.error(error);
@@ -881,8 +1205,6 @@ document.querySelectorAll("[data-demo-link]").forEach((link) => {
 
     if (link.classList.contains("photo-reports-button")) {
       showMessage("Fotoreporty zatiaľ nie sú dostupné.");
-    } else if (link.classList.contains("login-button")) {
-      showMessage("Prihlásenie zatiaľ nie je dostupné.");
     } else if (link.classList.contains("footer-contact")) {
       showMessage("Kontaktné údaje zatiaľ nie sú dostupné.");
     } else if (link.classList.contains("article-link")) {
@@ -908,6 +1230,11 @@ document.addEventListener("click", (event) => {
 
   if ((type !== "club" && type !== "player") || !title || !href) {
     showMessage("Túto položku sa nepodarilo pridať medzi obľúbené.");
+    return;
+  }
+
+  if (!getCurrentUser()) {
+    showMessage("Pre ukladanie obľúbených klubov a hráčov sa musíš najprv prihlásiť.");
     return;
   }
 
@@ -940,5 +1267,14 @@ document.addEventListener("click", (event) => {
       renderFavorites();
       showMessage("Pridané medzi obľúbené.");
     }
+  }
+});
+
+window.addEventListener("storage", (event) => {
+  if (event.key === usersStorageKey || event.key === currentUserStorageKey) {
+    updateAccountNavigation();
+    renderFavorites();
+    renderProfile();
+    syncFavoriteButtons();
   }
 });

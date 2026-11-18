@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Používateľský profil a obľúbené kluby a hráči 7. Ligy.">
+  <title>Profil | 7. Liga</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="7. Liga – úvodná stránka">
+      <span class="brand-mark" aria-hidden="true"><span>7<span class="brand-letters">LiGA</span></span></span>
+    </a>
+    <nav class="primary-nav" aria-label="Hlavná navigácia">
+      <div class="search-control">
+        <button class="icon-button search-toggle" type="button" aria-label="Vyhľadávanie" aria-expanded="false" aria-controls="search-panel">
+          <span class="search-icon" aria-hidden="true"></span>
+        </button>
+        <div class="search-panel" id="search-panel" hidden>
+          <label for="site-search">Hľadaj hráča, klub alebo článok</label>
+          <input id="site-search" type="search" placeholder="Meno hráča, klubu alebo článku..." autocomplete="off" aria-controls="search-results">
+          <p class="search-hint" id="search-hint">Výsledky sa zobrazia počas písania.</p>
+          <ul class="search-results" id="search-results" aria-live="polite"></ul>
+        </div>
+      </div>
+      <a class="nav-link" href="hraci.html">HRÁČI</a>
+      <a class="nav-link" href="vysledky.html">VÝSLEDKY</a>
+      <a class="nav-link" href="clanky.html">ČLÁNKY</a>
+    </nav>
+    <div class="account-actions">
+      <a class="favorite-link" href="oblubene.html" aria-label="Obľúbené kluby a hráči">
+        <svg class="favorite-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.4 8.7c0 4.8-7.4 9.7-8.1 10.1a.6.6 0 0 1-.6 0c-.7-.4-8.1-5.3-8.1-10.1a4.4 4.4 0 0 1 8.4-1.8 4.4 4.4 0 0 1 8.4 1.8Z"></path>
+        </svg>
+      </a>
+      <a class="login-button" href="prihlasenie.html" data-auth-link>PRIHLÁSIŤ SA</a>
+    </div>
+  </header>
+
+  <main class="profile-layout">
+    <h1 class="section-heading profile-page-heading">MÔJ PROFIL</h1>
+    <section class="profile-sign-in-notice" id="profile-sign-in-notice" hidden>
+      <p>Pre zobrazenie profilu sa najprv prihlás.</p>
+      <a class="auth-submit profile-sign-in-link" href="prihlasenie.html">Prihlásiť sa</a>
+    </section>
+    <div class="profile-account" id="profile-account" hidden>
+      <section class="profile-card profile-account-card" aria-labelledby="profile-account-heading">
+        <div>
+          <h2 class="profile-card-heading" id="profile-account-heading">MOJE ÚDAJE</h2>
+          <dl class="profile-details">
+            <div><dt>Prezývka</dt><dd id="profile-nickname"></dd></div>
+            <div><dt>E-mail</dt><dd id="profile-email"></dd></div>
+          </dl>
+        </div>
+        <button class="profile-logout" type="button" id="profile-logout">Odhlásiť sa</button>
+      </section>
+
+      <section class="profile-card" aria-labelledby="profile-clubs-heading">
+        <h2 class="profile-card-heading" id="profile-clubs-heading">MOJE OBĽÚBENÉ KLUBY</h2>
+        <p class="favorites-empty" id="profile-clubs-empty">Zatiaľ nemáš obľúbené kluby.</p>
+        <ul class="favorites-list" id="profile-clubs-list" aria-live="polite"></ul>
+      </section>
+
+      <section class="profile-card" aria-labelledby="profile-players-heading">
+        <h2 class="profile-card-heading" id="profile-players-heading">MOJI OBĽÚBENÍ HRÁČI</h2>
+        <p class="favorites-empty" id="profile-players-empty">Zatiaľ nemáš obľúbených hráčov.</p>
+        <ul class="favorites-list" id="profile-players-list" aria-live="polite"></ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">7. LIGA <span aria-label="copyright">©</span></p>
+    <button class="footer-contact" type="button" data-demo-link>KONTAKT</button>
+  </footer>
+
+  <p class="interaction-message" role="status" aria-live="polite"></p>
+</body>
+</html>
