@@ -6,6 +6,7 @@
   <meta name="description" content="Profil hráča 7. Ligy a štatistická tabuľka, v ktorej figuruje.">
   <title>Profil hráča | 7. Liga</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="js/hraci-data.js" defer></script>
   <script src="script.js" defer></script>
 </head>
 <body>
@@ -40,11 +41,32 @@
   </header>
 
   <main class="player-profile-layout">
-    <h1 class="section-heading player-profile-heading" id="player-profile-name">Profil hráča</h1>
-    <div class="player-profile-content">
-      <img class="player-profile-photo" src="img/profilovka.jpg" alt="Profilová fotografia hráča">
-      <div class="player-profile-stats" id="player-profile-stats"></div>
-    </div>
+    <article class="player-profile-card" id="player-profile-card">
+      <header class="player-profile-header">
+        <div class="player-profile-avatar" aria-hidden="true">
+          <svg viewBox="0 0 120 120"><circle cx="60" cy="38" r="20"></circle><path d="M24 104c2-26 16-40 36-40s34 14 36 40Z"></path></svg>
+        </div>
+        <div class="player-profile-title">
+          <div class="player-profile-name-row">
+            <h1 class="section-heading" id="player-profile-name">Profil hráča</h1>
+            <button class="favorite-link player-profile-favorite" type="button" data-add-favorite aria-label="Pridať hráča medzi obľúbené" aria-pressed="false">
+              <svg class="favorite-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 8.7c0 4.8-7.4 9.7-8.1 10.1a.6.6 0 0 1-.6 0c-.7-.4-8.1-5.3-8.1-10.1a4.4 4.4 0 0 1 8.4-1.8 4.4 4.4 0 0 1 8.4 1.8Z"></path></svg>
+            </button>
+          </div>
+          <div class="player-profile-meta">
+            <strong id="player-profile-number"></strong>
+            <span id="player-profile-position"></span>
+            <a id="player-profile-club" class="player-profile-club" href="#"><img id="player-profile-club-logo" src="" alt=""><span id="player-profile-club-name"></span></a>
+            <span class="player-profile-tag" id="player-profile-age"></span>
+            <span class="player-profile-tag" id="player-profile-nationality"></span>
+          </div>
+        </div>
+      </header>
+      <section class="player-season-card" aria-labelledby="player-season-heading">
+        <h2 class="section-heading" id="player-season-heading">SEZÓNNE ŠTATISTIKY</h2>
+        <div class="player-season-grid" id="player-profile-stats"></div>
+      </section>
+    </article>
     <p class="player-profile-error" id="player-profile-error" role="status" hidden></p>
   </main>
 

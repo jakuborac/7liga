@@ -308,7 +308,7 @@ function buildSearchIndex() {
       title: player.name,
       type: "player",
       subtitle: `${typeLabels.player} • ${team.name} · ${player.position}`,
-      href: getSiteHref(`${team.href}#player-${player.number}`),
+      href: getSiteHref(`hrac.html?id=${getPlayerSlug(player.name)}`),
       image: logo,
       searchText: normalizeText([player.name, team.name, player.position, player.number].join(" ")),
     }));
@@ -329,7 +329,7 @@ function buildSearchIndex() {
 
 function getLocalHref(value) {
   try {
-    const url = new URL(value, window.location.href);
+    const url = new URL(value, siteRoot);
     return url.origin === window.location.origin ? url.href : null;
   } catch {
     return null;
@@ -784,6 +784,10 @@ function addRosterFavoriteButtons() {
     if (!number || !title || !position) {
       return;
     }
+    const nameLink = document.createElement("a");
+    nameLink.href = getLocalHref(`hrac.html?id=${getPlayerSlug(title)}`);
+    nameLink.textContent = title;
+    nameCell.replaceChildren(nameLink);
 
     const button = document.createElement("button");
     const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -793,7 +797,7 @@ function addRosterFavoriteButtons() {
     button.dataset.addFavorite = "";
     button.dataset.favoriteType = "player";
     button.dataset.favoriteTitle = title;
-    button.dataset.favoriteHref = `${window.location.pathname.split("/").pop()}#${row.id}`;
+    button.dataset.favoriteHref = `hrac.html?id=${getPlayerSlug(title)}`;
     button.dataset.favoriteClub = club;
     button.dataset.favoritePosition = position;
     button.dataset.favoriteNumber = number;
@@ -835,7 +839,7 @@ function linkStatisticPlayers(root = document) {
     const name = nameNode.textContent.trim();
     const link = document.createElement("a");
     link.className = "player-stat-link";
-    link.href = `hrac.html?player=${encodeURIComponent(getPlayerSlug(name))}`;
+    link.href = getLocalHref(`hrac.html?id=${encodeURIComponent(getPlayerSlug(name))}`);
     link.textContent = name;
     nameNode.replaceWith(link);
   });
@@ -1058,7 +1062,13 @@ function createMatchEventList(match, teamCode) {
     icon.className = "match-event-icon";
     icon.setAttribute("aria-hidden", "true");
     icon.textContent = iconByType[event.type];
-    description.textContent = `${labelByType[event.type]} – ${event.player}${event.score ? ` (${event.score})` : ""}`;
+    const prefix = document.createTextNode(`${labelByType[event.type]} – `);
+    const playerLink = document.createElement("a");
+    playerLink.href = getLocalHref(`hrac.html?id=${getPlayerSlug(event.player)}`);
+    playerLink.className = "match-event-player";
+    playerLink.textContent = event.player;
+    const suffix = document.createTextNode(`${event.score ? ` (${event.score})` : ""}`);
+    description.replaceChildren(prefix, playerLink, suffix);
     item.append(time, icon, description);
     list.append(item);
   });
@@ -1196,41 +1206,69 @@ async function renderPlayerProfile() {
     return;
   }
 
-  const slug = new URLSearchParams(window.location.search).get("player");
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get("id") || params.get("player");
 
   if (!slug || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
     showPlayerProfileError("Hráča sa nepodarilo nájsť.");
     return;
   }
-
-  const response = await fetch("hraci.html");
-
-  if (!response.ok) {
-    throw new Error(`Nepodarilo sa načítať štatistiky hráčov (${response.status}).`);
+  if (!window.LIGA_HRACI_DATA) {
+    throw new Error("Databáza hráčov sa nepodarilo načítať.");
   }
+  const player = window.LIGA_HRACI_DATA.getPlayer(slug);
 
-  const sourceDocument = new DOMParser().parseFromString(await response.text(), "text/html");
-  const matchingSections = [...sourceDocument.querySelectorAll(".player-stat-section")].filter((section) =>
-    [...section.querySelectorAll(".player-stat-player")]
-      .some((player) => getPlayerSlug(player.textContent) === slug),
-  );
-
-  if (!matchingSections.length) {
+  if (!player) {
     showPlayerProfileError("Hráča sa nepodarilo nájsť.");
     return;
   }
 
-  const playerName = [...matchingSections[0].querySelectorAll(".player-stat-player")]
-    .find((player) => getPlayerSlug(player.textContent) === slug)
-    .textContent.trim();
   const heading = document.querySelector("#player-profile-name");
-  const portrait = document.querySelector(".player-profile-photo");
-  heading.textContent = playerName;
-  document.title = `${playerName} | 7. Liga`;
-  portrait.alt = `Profilová fotografia hráča ${playerName}`;
+  heading.textContent = player.name;
+  document.title = `${player.name} | 7. Liga`;
 
-  profileStats.append(...matchingSections.map((section) => section.cloneNode(true)));
-  linkStatisticPlayers(profileStats);
+  document.querySelector("#player-profile-number").textContent = `#${player.number}`;
+  document.querySelector("#player-profile-position").textContent = player.position;
+  const clubLink = document.querySelector("#player-profile-club");
+  clubLink.href = getLocalHref(player.clubHref);
+  document.querySelector("#player-profile-club-logo").src = getLocalHref(player.logo);
+  document.querySelector("#player-profile-club-logo").alt = `Logo klubu ${player.club}`;
+  document.querySelector("#player-profile-club-name").textContent = player.club;
+  document.querySelector("#player-profile-age").textContent = `Vek: ${player.age} rokov`;
+  document.querySelector("#player-profile-nationality").textContent =
+    `Národnosť: ${player.nationality} ${player.flag}`;
+
+  const favoriteButton = document.querySelector(".player-profile-favorite");
+  favoriteButton.dataset.favoriteType = "player";
+  favoriteButton.dataset.favoriteTitle = player.name;
+  favoriteButton.dataset.favoriteHref = `hrac.html?id=${player.id}`;
+  favoriteButton.dataset.favoriteClub = player.club;
+  favoriteButton.dataset.favoritePosition = player.position;
+  favoriteButton.dataset.favoriteNumber = player.number;
+
+  const boxes = [
+    ["Odohrané zápasy", `${player.stats.matches}`, ""],
+    ["Odohrané minúty", `${player.stats.minutes.toLocaleString("sk-SK")}'`, ""],
+    ["Góly", `${player.stats.goals}`, ""],
+    ["Asistencie", `${player.stats.assists}`, ""],
+    ["Žlté karty", `${player.stats.yellowCards}`, ""],
+    ["Červené karty", `${player.stats.redCards}`, ""],
+  ];
+  if (player.position === "Brankár") {
+    boxes.push(["Čisté kontá", `${player.stats.cleanSheets}`, ""]);
+  }
+
+  profileStats.replaceChildren(...boxes.map(([label, value]) => {
+    const box = document.createElement("div");
+    const valueNode = document.createElement("strong");
+    const labelNode = document.createElement("span");
+    box.className = "player-season-box";
+    valueNode.textContent = value;
+    labelNode.textContent = label;
+    box.append(valueNode, labelNode);
+    return box;
+  }));
+  syncFavoriteButtons();
 }
 
 function syncFavoriteButtons() {
