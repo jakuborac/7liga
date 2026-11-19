@@ -336,6 +336,39 @@ function getLocalHref(value) {
   }
 }
 
+function getFavoriteIdentity(type, title, href) {
+  if (type === "club") {
+    const club = Object.values(matchTeams).find((team) =>
+      team.name === title ||
+      getLocalHref(team.href) === getLocalHref(href) ||
+      getLocalHref(team.href) === getLocalHref(`kluby/${href?.split("/").pop()}`),
+    );
+    return club ? `club:${getLocalHref(club.href)}` : `club:${getLocalHref(href)}`;
+  }
+  return `${type}:${getLocalHref(href)}`;
+}
+
+function normalizeFavorite(favorite) {
+  if (!favorite || (favorite.type !== "club" && favorite.type !== "player") ||
+      typeof favorite.title !== "string" || typeof favorite.href !== "string") {
+    return null;
+  }
+
+  if (favorite.type === "club") {
+    const club = Object.values(matchTeams).find((team) =>
+      team.name === favorite.title ||
+      getLocalHref(team.href) === getLocalHref(favorite.href) ||
+      getLocalHref(team.href) === getLocalHref(`kluby/${favorite.href.split("/").pop()}`),
+    );
+    if (club) {
+      return { ...favorite, href: getLocalHref(club.href) };
+    }
+  }
+
+  const href = getLocalHref(favorite.href);
+  return href ? { ...favorite, href } : null;
+}
+
 function readUsers() {
   try {
     const users = JSON.parse(localStorage.getItem(usersStorageKey) || "[]");
@@ -441,18 +474,23 @@ function migrateLegacyFavorites(user) {
   }
 
   const favorites = Array.isArray(account.favorites) ? account.favorites : [];
-  const combined = [...favorites];
+  const combined = [];
+  favorites.forEach((savedFavorite) => {
+    const normalized = normalizeFavorite(savedFavorite);
+    if (normalized && !combined.some((saved) =>
+      getFavoriteIdentity(saved.type, saved.title, saved.href) ===
+      getFavoriteIdentity(normalized.type, normalized.title, normalized.href),
+    )) {
+      combined.push(normalized);
+    }
+  });
   legacyFavorites.forEach((favorite) => {
-    if (
-      favorite &&
-      (favorite.type === "club" || favorite.type === "player") &&
-      typeof favorite.title === "string" &&
-      typeof favorite.href === "string" &&
-      !combined.some((saved) =>
-        saved && saved.type === favorite.type && getLocalHref(saved.href) === getLocalHref(favorite.href),
-      )
-    ) {
-      combined.push(favorite);
+    const normalized = normalizeFavorite(favorite);
+    if (normalized && !combined.some((saved) =>
+      getFavoriteIdentity(saved.type, saved.title, saved.href) ===
+      getFavoriteIdentity(normalized.type, normalized.title, normalized.href),
+    )) {
+      combined.push(normalized);
     }
   });
   account.favorites = combined;
@@ -473,7 +511,21 @@ function migrateLegacyFavorites(user) {
 
 function readFavorites() {
   const user = getCurrentUser();
-  return user && Array.isArray(user.favorites) ? user.favorites : [];
+  if (!user || !Array.isArray(user.favorites)) {
+    return [];
+  }
+
+  const uniqueFavorites = [];
+  user.favorites.forEach((favorite) => {
+    const normalized = normalizeFavorite(favorite);
+    if (normalized && !uniqueFavorites.some((saved) =>
+      getFavoriteIdentity(saved.type, saved.title, saved.href) ===
+      getFavoriteIdentity(normalized.type, normalized.title, normalized.href),
+    )) {
+      uniqueFavorites.push(normalized);
+    }
+  });
+  return uniqueFavorites;
 }
 
 function writeFavorites(favorites) {
@@ -490,7 +542,17 @@ function writeFavorites(favorites) {
     return false;
   }
 
-  account.favorites = favorites;
+  const uniqueFavorites = [];
+  favorites.forEach((favorite) => {
+    const normalized = normalizeFavorite(favorite);
+    if (normalized && !uniqueFavorites.some((saved) =>
+      getFavoriteIdentity(saved.type, saved.title, saved.href) ===
+      getFavoriteIdentity(normalized.type, normalized.title, normalized.href),
+    )) {
+      uniqueFavorites.push(normalized);
+    }
+  });
+  account.favorites = uniqueFavorites;
   return writeUsers(users);
 }
 
@@ -539,7 +601,8 @@ function createFavoriteItem(favorite) {
   removeButton.textContent = "Odstrániť";
   removeButton.addEventListener("click", () => {
     const remainingFavorites = readFavorites().filter((saved) =>
-      !saved || saved.type !== favorite.type || saved.href !== favorite.href,
+      !saved || getFavoriteIdentity(saved.type, saved.title, saved.href) !==
+        getFavoriteIdentity(favorite.type, favorite.title, favorite.href),
     );
     if (writeFavorites(remainingFavorites)) {
       renderFavorites();
@@ -761,10 +824,17 @@ function setupContactForm() {
 
 function setFavoriteButtonState(button, isFavorite) {
   const label = button.dataset.favoriteType === "club" ? "klub" : "hráča";
+  const isMatchFavorite = button.classList.contains("match-team-favorite");
+  const canRemove = button.dataset.favoriteType === "club";
   button.setAttribute("aria-pressed", String(isFavorite));
+  button.disabled = isFavorite && !canRemove;
   button.setAttribute(
     "aria-label",
-    isFavorite ? `Odobrať ${label} z obľúbených` : `Pridať ${label} medzi obľúbené`,
+    isFavorite
+      ? canRemove
+        ? `Odobrať ${label} z obľúbených`
+        : `${label === "klub" ? "Klub" : "Hráč"} je už medzi obľúbenými`
+      : `Pridať ${label} medzi obľúbené`,
   );
 }
 
@@ -1316,9 +1386,12 @@ function syncFavoriteButtons() {
 
   document.querySelectorAll("[data-add-favorite]").forEach((button) => {
     const type = button.dataset.favoriteType;
+    const title = button.dataset.favoriteTitle?.trim();
     const href = getLocalHref(button.dataset.favoriteHref);
+    const identity = getFavoriteIdentity(type, title, href);
     const isFavorite = favorites.some(
-      (favorite) => favorite && favorite.type === type && getLocalHref(favorite.href) === href,
+      (favorite) => favorite &&
+        getFavoriteIdentity(favorite.type, favorite.title, favorite.href) === identity,
     );
 
     setFavoriteButtonState(button, isFavorite);
@@ -1536,33 +1609,43 @@ document.addEventListener("click", (event) => {
 
   const favorites = readFavorites();
   const alreadySaved = favorites.some(
-    (favorite) => favorite && favorite.type === type && getLocalHref(favorite.href) === href,
+    (favorite) => favorite &&
+      getFavoriteIdentity(favorite.type, favorite.title, favorite.href) ===
+      getFavoriteIdentity(type, title, href),
   );
 
   if (alreadySaved) {
-    const remainingFavorites = favorites.filter(
-      (favorite) => !favorite || favorite.type !== type || getLocalHref(favorite.href) !== href,
-    );
+    if (type === "club") {
+      const remainingFavorites = favorites.filter(
+        (favorite) => !favorite ||
+          getFavoriteIdentity(favorite.type, favorite.title, favorite.href) !==
+          getFavoriteIdentity(type, title, href),
+      );
 
-    if (writeFavorites(remainingFavorites)) {
-      setFavoriteButtonState(target, false);
-      renderFavorites();
-      showMessage("Odstránené z obľúbených.");
-    }
-  } else {
-    const favorite = { type, title, href };
-
-    if (type === "player") {
-      favorite.club = target.dataset.favoriteClub;
-      favorite.position = target.dataset.favoritePosition;
-      favorite.number = target.dataset.favoriteNumber;
-    }
-
-    if (writeFavorites([...favorites, favorite])) {
+      if (writeFavorites(remainingFavorites)) {
+        setFavoriteButtonState(target, false);
+        renderFavorites();
+        showMessage("Odstránené z obľúbených.");
+      }
+    } else {
       setFavoriteButtonState(target, true);
-      renderFavorites();
-      showMessage("Pridané medzi obľúbené.");
+      showMessage(`${type === "club" ? "Klub" : "Hráč"} je už medzi obľúbenými.`);
     }
+    return;
+  }
+
+  const favorite = { type, title, href };
+
+  if (type === "player") {
+    favorite.club = target.dataset.favoriteClub;
+    favorite.position = target.dataset.favoritePosition;
+    favorite.number = target.dataset.favoriteNumber;
+  }
+
+  if (writeFavorites([...favorites, favorite])) {
+    setFavoriteButtonState(target, true);
+    renderFavorites();
+    showMessage("Pridané medzi obľúbené.");
   }
 });
 

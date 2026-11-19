@@ -210,6 +210,17 @@ a {
   fill: currentColor;
 }
 
+.favorite-link:disabled {
+  cursor: default;
+  opacity: 1;
+  pointer-events: none;
+}
+
+.match-team-favorite[aria-pressed="true"] {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
 .favorite-icon {
   width: 25px;
   height: 25px;
