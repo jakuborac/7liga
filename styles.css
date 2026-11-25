@@ -1007,22 +1007,13 @@ a[href*="hrac.html"]:focus {
 }
 
 .results-filter {
-  display: grid;
-  grid-template-columns: auto minmax(0, 260px);
-  align-items: center;
-  gap: 12px;
-  margin: 0 0 26px auto;
-}
-
-.results-filter label {
-  color: var(--red);
-  font-size: 13px;
-  font-weight: 800;
-  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  margin: 0 0 26px;
 }
 
 .results-filter select {
-  width: 100%;
+  width: min(260px, 100%);
   min-height: 44px;
   padding: 0 12px;
   border: 2px solid #44474d;
@@ -2516,13 +2507,7 @@ a[href*="hrac.html"]:focus {
   }
 
   .results-filter {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 7px;
     margin-bottom: 20px;
-  }
-
-  .results-filter label {
-    font-size: 12px;
   }
 
   .match-round-panel {
