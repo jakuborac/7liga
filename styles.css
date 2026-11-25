@@ -1128,6 +1128,10 @@ a[href*="hrac.html"]:focus {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.styled-select-options[hidden] {
+  display: none;
+}
+
 .styled-select-option {
   min-height: 38px;
   display: flex;
