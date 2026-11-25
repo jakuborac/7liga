@@ -647,8 +647,28 @@ function updateAccountNavigation() {
   const relativePath = window.location.pathname.includes("/kluby/") ? "../" : "";
 
   document.querySelectorAll("[data-auth-link]").forEach((link) => {
+    let label = link.querySelector(".login-button-label");
+    if (!label) {
+      const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      const head = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      const shoulders = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      label = document.createElement("span");
+
+      icon.classList.add("profile-icon");
+      icon.setAttribute("viewBox", "0 0 24 24");
+      icon.setAttribute("aria-hidden", "true");
+      icon.setAttribute("focusable", "false");
+      head.setAttribute("cx", "12");
+      head.setAttribute("cy", "8");
+      head.setAttribute("r", "4");
+      shoulders.setAttribute("d", "M20 21a8 8 0 0 0-16 0");
+      label.className = "login-button-label";
+      icon.append(head, shoulders);
+      link.replaceChildren(icon, label);
+    }
+
     link.href = `${relativePath}${user ? "profil.html" : "prihlasenie.html"}`;
-    link.textContent = user ? "PROFIL" : "PRIHLÁSIŤ SA";
+    label.textContent = user ? "PROFIL" : "PRIHLÁSIŤ SA";
     link.setAttribute("aria-label", user ? `Profil používateľa ${user.nickname}` : "Prihlásiť sa");
   });
 }

@@ -27,6 +27,7 @@ Implementované sú responzívna úvodná obrazovka, kontaktná podstránka, kli
 - `clanky.html` obsahuje päť článkov; úvodná stránka si ponecháva iba tri najnovšie.
 - Prehľad článkov možno filtrovať podľa všetkých ôsmich klubov a sezóny 2026/2027.
 - Odkazy na nedostupné sekcie zobrazia informačnú správu.
+- Na mobilných obrazovkách sú logo, obľúbené a profilová ikona v hornom riadku hlavičky; hlavná navigácia sa zobrazuje pod nimi.
 - Rozloženie sa prispôsobuje menším obrazovkám.
 
 Stránka používa čisté HTML, CSS a JavaScript bez frameworkov a externých knižníc.
@@ -62,7 +63,7 @@ V editore VS Code možno otvoriť `index.html` cez **Show Preview** alebo rozš�
 
 ## Posledná úprava
 
-- 2026-11-25: Na stránke výsledkov odstránený text „Vybrať kolo“ a rozbaľovací filter vycentrovaný vrátane mobilného zobrazenia; zoznam kôl zobrazuje všetky možnosti v dvoch stĺpcoch bez vnútorného rolovania. Filter klubov na `clanky.html` má rovnaké dvojstĺpcové menu; ostatné vlastné rozbaľovacie menu podporujú štýl stránky a ovládanie klávesnicou.
+- 2026-11-25: Mobilná hlavička zobrazuje logo, srdiečko a profilovú ikonu v hornom riadku. Na stránke výsledkov odstránený text „Vybrať kolo“ a rozbaľovací filter vycentrovaný vrátane mobilného zobrazenia; zoznam kôl zobrazuje všetky možnosti v dvoch stĺpcoch bez vnútorného rolovania. Filter klubov na `clanky.html` má rovnaké dvojstĺpcové menu; ostatné vlastné rozbaľovacie menu podporujú štýl stránky a ovládanie klávesnicou.
 - 2026-11-18: Pridaná `kontakt.html` s údajmi zväzu, ôsmimi klubovými kontaktmi a ukážkovým formulárom; pätičky odkazujú na kontaktnú stránku.
 - 2026-11-18: Rozšírené živé vyhľadávanie o kluby, regióny, prezývky, všetky súpisky a články; výsledky sú bez diakritiky a s klubovými logami.
 - 2026-11-18: Pridaný klikateľný detail zápasu s udalosťami a štatistikami; kluby v zápasoch možno pridávať medzi obľúbené a detail používa jeden posuvník.
