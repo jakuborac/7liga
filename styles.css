@@ -763,6 +763,10 @@ a[href*="hrac.html"]:focus {
 .articles-page-layout {
   width: min(1060px, 100%);
   margin: 36px auto 0;
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
 }
 
 .results-layout {
@@ -1515,7 +1519,7 @@ a[href*="hrac.html"]:focus {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 34px;
+  margin-bottom: 0;
   border: 2px solid var(--soft-red);
   border-radius: 12px;
   background: var(--surface);
@@ -1531,10 +1535,6 @@ a[href*="hrac.html"]:focus {
   border-color: var(--red);
   background: #fff;
   transform: scale(1.02);
-}
-
-.articles-page-heading {
-  margin-bottom: 8px;
 }
 
 .article-filters {
@@ -1580,6 +1580,7 @@ a[href*="hrac.html"]:focus {
 
 .articles-page-panel {
   min-height: 0;
+  padding: 24px;
 }
 
 .article-filter-empty {
@@ -2388,6 +2389,10 @@ a[href*="hrac.html"]:focus {
     padding: 10px 10px 32px;
   }
 
+  .articles-page-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .player-profile-header {
     grid-template-columns: 1fr;
     justify-items: center;
@@ -2772,7 +2777,6 @@ a[href*="hrac.html"]:focus {
 
   .photo-reports-button {
     min-height: 54px;
-    margin-bottom: 26px;
     font-size: 16px;
   }
 
