@@ -264,30 +264,35 @@ const searchArticles = [
     title: "Ako dopadlo miestne derby?",
     href: "clanok-derby.html",
     image: "img/fotky/zapas1.jpg",
+    imageAlt: "Dvaja futbalisti bojujú o loptu na ihrisku",
     keywords: "derby zápas miestny",
   },
   {
     title: "Nové posily v lige",
     href: "clanok-posily.html",
     image: "img/fotky/bitka.jpg",
+    imageAlt: "Hráči súperiacich tímov pri súboji počas zápasu",
     keywords: "prestupy noví hráči kluby",
   },
   {
     title: "Najlepšie občerstvenie v našej lige",
     href: "clanok-obcerstvenie.html",
     image: "img/fotky/bufet1.jpg",
+    imageAlt: "Fanúšikovia pri stojane s občerstvením na štadióne",
     keywords: "občerstvenie jedlo nápoje bufet",
   },
   {
     title: "Pred zápasom rozhoduje aj dobrá príprava",
     href: "clanok-priprava.html",
     image: "img/fotky/bitka.jpg",
+    imageAlt: "Hráči súperiacich tímov pri súboji počas zápasu",
     keywords: "tréning príprava tím zápas",
   },
   {
     title: "Fanúšikovia tvoria atmosféru na ihrisku",
     href: "clanok-fanusikovia.html",
     image: "img/fotky/zapas1.jpg",
+    imageAlt: "Dvaja futbalisti bojujú o loptu na ihrisku",
     keywords: "fanúšikovia atmosféra diváci ihrisko",
   },
 ];
@@ -302,6 +307,7 @@ function buildSearchIndex() {
       subtitle: `${typeLabels.club} • ${team.region}`,
       href: teamHref,
       image: logo,
+      imageAlt: `Logo klubu ${team.name}`,
       searchText: normalizeText([team.name, team.region, team.nickname].join(" ")),
     };
     const playerRecords = team.roster.map((player) => ({
@@ -310,6 +316,7 @@ function buildSearchIndex() {
       subtitle: `${typeLabels.player} • ${team.name} · ${player.position}`,
       href: getSiteHref(`hrac.html?id=${getPlayerSlug(player.name)}`),
       image: logo,
+      imageAlt: `Logo klubu ${team.name}`,
       searchText: normalizeText([player.name, team.name, player.position, player.number].join(" ")),
     }));
 
@@ -321,6 +328,7 @@ function buildSearchIndex() {
     subtitle: typeLabels.article,
     href: getSiteHref(article.href),
     image: getSiteHref(article.image),
+    imageAlt: article.imageAlt,
     searchText: normalizeText([article.title, article.keywords].join(" ")),
   }));
 
@@ -1122,7 +1130,7 @@ function createMatchTeamElement(teamCode, className) {
   const name = document.createElement("span");
   element.className = className;
   logo.src = team.logo;
-  logo.alt = "";
+  logo.alt = `Logo klubu ${team.name}`;
   name.textContent = team.name;
   element.append(logo, name);
   return element;
@@ -1686,7 +1694,7 @@ function renderSearchResults(value) {
       const image = document.createElement("img");
       image.className = "search-result-image";
       image.src = record.image;
-      image.alt = "";
+      image.alt = record.imageAlt;
       image.loading = "lazy";
       link.append(image);
     } else {
