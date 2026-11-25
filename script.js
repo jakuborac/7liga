@@ -1481,6 +1481,7 @@ function setupStyledSelects() {
     listbox.className = "styled-select-options";
     listbox.id = `${selectId}-options`;
     listbox.setAttribute("role", "listbox");
+    listbox.hidden = true;
 
     const labels = [...(select.labels || [])];
     if (labels.length) {
