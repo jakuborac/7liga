@@ -1433,6 +1433,163 @@ function filterMatchRounds() {
   });
 }
 
+function setupStyledSelects() {
+  const closeOpenMenus = (except) => {
+    document.querySelectorAll(".styled-select.is-open").forEach((wrapper) => {
+      if (wrapper !== except) {
+        wrapper.closeStyledSelect();
+      }
+    });
+  };
+
+  document.querySelectorAll("select").forEach((select, selectIndex) => {
+    const selectId = select.id || `styled-select-${selectIndex}`;
+    const wrapper = document.createElement("div");
+    const trigger = document.createElement("button");
+    const value = document.createElement("span");
+    const listbox = document.createElement("div");
+    const optionItems = [];
+
+    wrapper.className = "styled-select";
+    trigger.className = "styled-select-trigger";
+    trigger.type = "button";
+    trigger.id = `${selectId}-trigger`;
+    trigger.setAttribute("aria-haspopup", "listbox");
+    trigger.setAttribute("aria-expanded", "false");
+    trigger.setAttribute("aria-controls", `${selectId}-options`);
+    value.className = "styled-select-value";
+    listbox.className = "styled-select-options";
+    listbox.id = `${selectId}-options`;
+    listbox.setAttribute("role", "listbox");
+
+    const labels = [...(select.labels || [])];
+    if (labels.length) {
+      const labelIds = labels.map((label, labelIndex) => {
+        if (!label.id) {
+          label.id = `${selectId}-label-${labelIndex}`;
+        }
+        label.htmlFor = trigger.id;
+        return label.id;
+      });
+      trigger.setAttribute("aria-labelledby", labelIds.join(" "));
+    } else {
+      trigger.setAttribute("aria-label", select.getAttribute("aria-label") || "Vyberte možnosť");
+    }
+
+    [...select.options].forEach((option, optionIndex) => {
+      const item = document.createElement("div");
+      item.className = "styled-select-option";
+      item.id = `${selectId}-option-${optionIndex}`;
+      item.setAttribute("role", "option");
+      item.setAttribute("aria-selected", String(option.selected));
+      item.setAttribute("aria-disabled", String(option.disabled));
+      item.tabIndex = -1;
+      item.textContent = option.textContent;
+      item.addEventListener("click", () => {
+        if (option.disabled) {
+          return;
+        }
+        select.selectedIndex = optionIndex;
+        syncValue();
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+        wrapper.closeStyledSelect(true);
+      });
+      optionItems.push(item);
+      listbox.append(item);
+    });
+
+    function syncValue() {
+      const selectedIndex = select.selectedIndex;
+      value.textContent = select.options[selectedIndex]?.textContent || "";
+      optionItems.forEach((item, index) => {
+        item.setAttribute("aria-selected", String(index === selectedIndex));
+      });
+    }
+
+    function focusOption(index) {
+      const availableOptions = optionItems
+        .map((item, itemIndex) => ({ item, itemIndex }))
+        .filter(({ item }) => item.getAttribute("aria-disabled") !== "true");
+      const target = availableOptions.find(({ itemIndex }) => itemIndex >= index)
+        || availableOptions.at(-1);
+      target?.item.focus();
+    }
+
+    function openMenu(focusIndex = select.selectedIndex) {
+      closeOpenMenus(wrapper);
+      wrapper.classList.add("is-open");
+      trigger.setAttribute("aria-expanded", "true");
+      listbox.hidden = false;
+      focusOption(focusIndex);
+    }
+
+    wrapper.closeStyledSelect = (restoreFocus = false) => {
+      wrapper.classList.remove("is-open");
+      trigger.setAttribute("aria-expanded", "false");
+      listbox.hidden = true;
+      if (restoreFocus) {
+        trigger.focus();
+      }
+    };
+
+    trigger.addEventListener("click", () => {
+      if (wrapper.classList.contains("is-open")) {
+        wrapper.closeStyledSelect();
+      } else {
+        openMenu();
+      }
+    });
+
+    trigger.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault();
+        const step = event.key === "ArrowDown" ? 1 : -1;
+        openMenu(Math.max(0, select.selectedIndex + step));
+      } else if (event.key === "Escape" && wrapper.classList.contains("is-open")) {
+        event.preventDefault();
+        wrapper.closeStyledSelect(true);
+      }
+    });
+
+    listbox.addEventListener("keydown", (event) => {
+      const currentIndex = optionItems.indexOf(event.target);
+      if (currentIndex < 0) {
+        return;
+      }
+      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault();
+        const step = event.key === "ArrowDown" ? 1 : -1;
+        focusOption(Math.min(optionItems.length - 1, Math.max(0, currentIndex + step)));
+      } else if (event.key === "Home" || event.key === "End") {
+        event.preventDefault();
+        focusOption(event.key === "Home" ? 0 : optionItems.length - 1);
+      } else if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        optionItems[currentIndex].click();
+      } else if (event.key === "Escape") {
+        event.preventDefault();
+        wrapper.closeStyledSelect(true);
+      }
+    });
+
+    syncValue();
+    trigger.append(value);
+    select.classList.add("styled-select-native");
+    select.setAttribute("aria-hidden", "true");
+    select.tabIndex = -1;
+    select.before(wrapper);
+    wrapper.append(select, trigger, listbox);
+  });
+
+  document.addEventListener("pointerdown", (event) => {
+    if (!event.target.closest(".styled-select")) {
+      closeOpenMenus();
+    }
+  });
+}
+
+setupStyledSelects();
+
 addRosterFavoriteButtons();
 linkStatisticPlayers();
 initializeMatchDetails();

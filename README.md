@@ -20,7 +20,7 @@ Implementované sú responzívna úvodná obrazovka, kontaktná podstránka, kli
 - Odkaz Kontakt v každej pätičke otvorí `kontakt.html`, kde sú kontakty zväzu, ukážkový formulár a kontakty ôsmich klubov. Formulár zobrazí potvrdenie iba v prehliadači; správa sa neodosiela na server.
 - Odkaz HRÁČI v hlavnej navigácii otvorí `hraci.html`, ktorá zobrazuje tabuľky strelcov, asistencií, čistých kont, odohraných minút a kariet v responzívnej dvojstĺpcovej mriežke.
 - Kliknutie na meno v štatistikách otvorí profil hráča cez `hrac.html`; profil zobrazuje obrázok `img/profilovka.jpg` a iba štatistické tabuľky, v ktorých hráč figuruje.
-- Odkaz VÝSLEDKY otvorí `vysledky.html` s výsledkami 14 kôl. Vycentrovaný rozbaľovací filter bez nadbytočného popisu okamžite zobrazí zvolené kolo alebo všetky kolá bez obnovenia stránky.
+- Odkaz VÝSLEDKY otvorí `vysledky.html` s výsledkami 14 kôl. Vycentrovaný vlastný rozbaľovací zoznam zobrazuje zvolené kolo alebo všetky kolá bez obnovenia stránky; možnosti sú v dvoch stĺpcoch bez vnútorného rolovania. Filter klubov v `clanky.html` má rovnako dvojstĺpcový zoznam; vlastné menu používa aj výber sezóny a predmetu kontaktu. Pôvodné selecty zostávajú synchronizované s filtrami a formulárom.
 - Kliknutie na zápas otvorí modálny detail s konečným aj polčasovým skóre, časovou osou gólov a kariet a porovnaním štatistík; detail má jeden vnútorný posuvník a pri domácich aj hosťujúcich možno pridať klub medzi obľúbené.
 - Kliknutie na článok alebo jeho výsledok vo vyhľadávaní otvorí samostatnú podstránku článku; z detailu sa možno vrátiť na zoznam najnovších článkov.
 - Odkaz Články v hlavnej navigácii otvorí `clanky.html` s článkami a tlačidlom Fotoreporty.
@@ -62,7 +62,7 @@ V editore VS Code možno otvoriť `index.html` cez **Show Preview** alebo rozš�
 
 ## Posledná úprava
 
-- 2026-11-25: Na stránke výsledkov odstránený text „Vybrať kolo“ a rozbaľovací filter vycentrovaný vrátane mobilného zobrazenia.
+- 2026-11-25: Na stránke výsledkov odstránený text „Vybrať kolo“ a rozbaľovací filter vycentrovaný vrátane mobilného zobrazenia; zoznam kôl zobrazuje všetky možnosti v dvoch stĺpcoch bez vnútorného rolovania. Filter klubov na `clanky.html` má rovnaké dvojstĺpcové menu; ostatné vlastné rozbaľovacie menu podporujú štýl stránky a ovládanie klávesnicou.
 - 2026-11-18: Pridaná `kontakt.html` s údajmi zväzu, ôsmimi klubovými kontaktmi a ukážkovým formulárom; pätičky odkazujú na kontaktnú stránku.
 - 2026-11-18: Rozšírené živé vyhľadávanie o kluby, regióny, prezývky, všetky súpisky a články; výsledky sú bez diakritiky a s klubovými logami.
 - 2026-11-18: Pridaný klikateľný detail zápasu s udalosťami a štatistikami; kluby v zápasoch možno pridávať medzi obľúbené a detail používa jeden posuvník.
